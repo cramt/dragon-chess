@@ -1,3 +1,4 @@
+pub mod cleric;
 pub mod thief;
 
 use crate::pieces::vector3::Vector3;

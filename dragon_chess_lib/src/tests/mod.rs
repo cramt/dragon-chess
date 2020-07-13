@@ -1,3 +1,4 @@
+mod cleric;
 mod thief;
 mod hero;
 mod unicorn;
