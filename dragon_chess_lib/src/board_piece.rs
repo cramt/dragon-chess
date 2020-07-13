@@ -11,7 +11,7 @@ pub struct BoardPiece {
 impl BoardPiece {
     pub fn new(pos: Vector3, board: Board) -> Option<BoardPiece> {
         match board.grid[&pos].as_ref() {
-            Some(mut piece) => {
+            Some(_piece) => {
                 Some(BoardPiece {
                     piece: pos,
                     board,

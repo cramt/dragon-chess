@@ -17,7 +17,7 @@ mod sylph {
     fn basic_move_from_upper() {
         let v = Vector3::new(5, 5, 2);
         let sylph = Sylph::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(sylph)]);
+        let board = Board::new_specified(vec![Box::new(sylph)]);
         let sylph = board.board_piece(v).unwrap();
         let moves = sylph.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -31,7 +31,7 @@ mod sylph {
     fn basic_move_from_middle() {
         let v = Vector3::new(5, 5, 1);
         let sylph = Sylph::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(sylph)]);
+        let board = Board::new_specified(vec![Box::new(sylph)]);
         let sylph = board.board_piece(v).unwrap();
         let moves = sylph.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -50,8 +50,8 @@ mod sylph {
         let v = Vector3::new(5, 5, 2);
         let sylph = Sylph::new(v, PLAYER1);
         let sylph2 = Sylph::new(Vector3::new(5, 6, 2), PLAYER2);
-        let mut board = Board::new_specified(vec![Box::new(sylph), Box::new(sylph2)]);
-        let mut sylph = board.board_piece(v).unwrap();
+        let board = Board::new_specified(vec![Box::new(sylph), Box::new(sylph2)]);
+        let sylph = board.board_piece(v).unwrap();
         let moves = sylph.possible_moves();
         assert_grid(&moves, hashmap! {
             Vector3::new(6, 6, 2) => Move,

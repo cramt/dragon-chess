@@ -16,7 +16,7 @@ mod griffon {
     fn basic_move() {
         let v = Vector3::new(7, 3, 2);
         let dragon = Dragon::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(dragon)]);
+        let board = Board::new_specified(vec![Box::new(dragon)]);
         let dragon = board.board_piece(v).unwrap();
         let moves = dragon.possible_moves();
 

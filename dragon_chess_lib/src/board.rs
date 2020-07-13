@@ -3,7 +3,7 @@ use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
 use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
 use crate::board::MoveType::{Move, Capture, RemoteCapture};
-use std::rc::Rc;
+
 use crate::board_piece::BoardPiece;
 
 #[derive(PartialEq, Debug, Clone, Copy)]

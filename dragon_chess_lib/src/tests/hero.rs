@@ -9,7 +9,7 @@ mod hero {
     use maplit::*;
 
     use crate::pieces::hero::Hero;
-    use std::rc::Rc;
+    
 
 
     const PLAYER1: Player = Player::new(1);
@@ -19,7 +19,7 @@ mod hero {
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let hero = Hero::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(hero)]);
+        let board = Board::new_specified(vec![Box::new(hero)]);
         let hero = board.board_piece(v).unwrap();
         let moves = hero.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -55,7 +55,7 @@ mod hero {
     fn basic_move_back() {
         let v = Vector3::new(5, 5, 1);
         let hero = Hero::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(hero)]);
+        let board = Board::new_specified(vec![Box::new(hero)]);
         let mut hero = board.board_piece(v).unwrap();
         hero.move_piece(Vector3::new(6, 6, 2));
         let moves = hero.possible_moves();
