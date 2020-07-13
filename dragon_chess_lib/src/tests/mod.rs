@@ -1,3 +1,4 @@
+mod thief;
 mod hero;
 mod unicorn;
 mod oliphant;

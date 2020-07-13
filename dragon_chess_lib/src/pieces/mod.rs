@@ -1,3 +1,5 @@
+pub mod thief;
+
 use crate::pieces::vector3::Vector3;
 use std::vec::Vec;
 
