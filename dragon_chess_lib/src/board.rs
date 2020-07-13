@@ -5,6 +5,7 @@ use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
 use crate::board::MoveType::{Move, Capture, RemoteCapture};
 
 use crate::board_piece::BoardPiece;
+use crate::pieces::move_set::MoveSet;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
@@ -31,12 +32,12 @@ impl Board {
     }
 
     pub(self) fn build_state(pieces: Vec<Box<dyn Piece>>) -> Grid<Option<Box<dyn Piece>>> {
-        let mut res = Grid::new();
+        let mut state = Grid::new();
         for p in pieces {
             let position = p.get_position().clone();
-            res[&position] = Some(p);
+            state[&position] = Some(p);
         }
-        res
+        state
     }
 
     pub fn board_piece(self, pos: Vector3) -> Option<BoardPiece> {
@@ -44,32 +45,24 @@ impl Board {
     }
 
     pub fn possible_moves(&self, piece: &Box<dyn Piece>) -> Grid<Option<MoveType>> {
+        let freeze_zone = self.grid.flat().iter()
+            .filter(|x| x.is_some())
+            .map(|x| x.as_ref().unwrap())
+            .filter(|x| x.get_player() != piece.get_player())
+            .filter(|x| x.freeze_zone().is_some())
+            .map(|x| (x.freeze_zone().unwrap(), *x.get_position()))
+            .fold(Grid::new(), |acc, x| {
+                let mut grid = Grid::new();
+                self.unwrap_from_move_dirs(x.0, x.1, &mut grid);
+                acc.concat(grid)
+            });
+        if freeze_zone[piece.get_position()].is_some() {
+            return Grid::new();
+        }
         let mut moves = Grid::new();
         let move_dirs = piece.move_directions();
         let cap_dirs = piece.capture_directions();
-        for move_dir in move_dirs {
-            if move_dir.repeated {
-                for dir in &move_dir.directions {
-                    let mut curr = *piece.get_position() + *dir;
-                    loop {
-                        if self.grid.valid(&curr) != DefaultValue {
-                            break;
-                        }
-                        moves[&curr] = Some(Move);
-                        curr = curr + *dir;
-                    }
-                }
-            } else if move_dir.remote {
-                panic!("you cant move remote");
-            } else {
-                let dir = move_dir.directions.into_iter().map(|v| v + *piece.get_position()).collect::<Vec<Vector3>>();
-                for dir in dir {
-                    if self.grid.valid(&dir) == DefaultValue {
-                        moves[&dir] = Some(Move);
-                    }
-                }
-            }
-        }
+        self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
         for cap_dir in cap_dirs {
             if cap_dir.repeated {
                 for dir in &cap_dir.directions {
@@ -98,6 +91,32 @@ impl Board {
             }
         }
         moves
+    }
+
+    fn unwrap_from_move_dirs(&self, move_dirs: Vec<MoveSet>, piece_position: Vector3, moves: &mut Grid<Option<MoveType>>) {
+        for move_dir in move_dirs {
+            if move_dir.repeated {
+                for dir in &move_dir.directions {
+                    let mut curr = piece_position + *dir;
+                    loop {
+                        if self.grid.valid(&curr) != DefaultValue {
+                            break;
+                        }
+                        moves[&curr] = Some(Move);
+                        curr = curr + *dir;
+                    }
+                }
+            } else if move_dir.remote {
+                panic!("you cant move remote");
+            } else {
+                let dir = move_dir.directions.into_iter().map(|v| v + piece_position).collect::<Vec<Vector3>>();
+                for dir in dir {
+                    if self.grid.valid(&dir) == DefaultValue {
+                        moves[&dir] = Some(Move);
+                    }
+                }
+            }
+        }
     }
 
     pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<(), &str> {

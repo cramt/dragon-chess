@@ -1,9 +1,15 @@
-pub mod cleric;
-pub mod thief;
+pub mod elemental;
+pub mod basilisk;
+pub mod dwarf;
+pub mod paladin;
 
 use crate::pieces::vector3::Vector3;
 use std::vec::Vec;
 
+pub mod king;
+pub mod mage;
+pub mod cleric;
+pub mod thief;
 pub mod hero;
 pub mod unicorn;
 pub mod oliphant;
@@ -34,9 +40,15 @@ pub trait Piece {
 
     fn get_name(&self) -> &str;
 
-    fn get_char(&self) -> char;
+    fn get_char(&self) -> char {
+        self.get_name().to_uppercase().chars().collect::<Vec<char>>()[0]
+    }
 
     fn promote(&self) -> Option<Box<dyn Piece>>;
+
+    fn freeze_zone(&self) -> Option<Vec<MoveSet>> {
+        None
+    }
 }
 
 impl std::fmt::Debug for dyn Piece {
