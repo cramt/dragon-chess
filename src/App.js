@@ -1,8 +1,21 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
 
-class App extends React.Component {
+import './App.css';
+import Counter from './Counter';
+
+export default class App extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            counter: 0
+        }
+    }
+    increment = () => {
+        this.setState({
+            counter: this.state.counter + 1
+        })
+    }
     render() {
         return (
             <div className="App">
@@ -20,9 +33,8 @@ class App extends React.Component {
                         Learn React
                 </a>
                 </header>
+                <Counter start={2}/>
             </div>
         );
     }
 }
-
-export default App;
