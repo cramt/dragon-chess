@@ -13,10 +13,11 @@ mod griffon {
 
     #[test]
     fn basic_move_from_upper() {
-        let griffon = Griffon::new(Vector3::new(5, 3, 2), PLAYER1);
-        let board = Board::new_specified(vec![Box::new(griffon)]);
-        let griffon = board.get_pieces()[0];
-        let moves = board.possible_moves(griffon);
+        let v = Vector3::new(5, 3, 2);
+        let griffon = Griffon::new(v, PLAYER1);
+        let mut board = Board::new_specified(vec![Box::new(griffon)]);
+        let griffon = board.board_piece(v).unwrap();
+        let moves = griffon.possible_moves();
 
         assert_grid(&moves, hashmap! {
             //starts at bottom left (chess position 1e), and moves around counter clockwise
@@ -39,10 +40,11 @@ mod griffon {
 
     #[test]
     fn basic_move_from_middle() {
-        let griffon = Griffon::new(Vector3::new(5, 3, 1), PLAYER1);
-        let board = Board::new_specified(vec![Box::new(griffon)]);
-        let griffon = board.get_pieces()[0];
-        let moves = board.possible_moves(griffon);
+        let v = Vector3::new(5, 3, 1);
+        let griffon = Griffon::new(v, PLAYER1);
+        let mut board = Board::new_specified(vec![Box::new(griffon)]);
+        let griffon = board.board_piece(v).unwrap();
+        let moves = griffon.possible_moves();
         assert_grid(&moves, hashmap! {
             Vector3::new(6, 4, 1) => Move,
             Vector3::new(4, 4, 1) => Move,

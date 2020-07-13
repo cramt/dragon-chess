@@ -1,13 +1,13 @@
 #[cfg(test)]
 mod warrior {
     use crate::board::{Board};
-    
+
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
-    
+
     use crate::board::MoveType::{Move, Capture};
     use crate::tests::assert_grid::assert_grid;
-    
+
     use maplit::*;
     use crate::pieces::warrior::Warrior;
 
@@ -16,10 +16,11 @@ mod warrior {
 
     #[test]
     fn basic_move() {
-        let warrior = Warrior::new(Vector3::new(5, 5, 1), PLAYER1);
-        let board = Board::new_specified(vec![Box::new(warrior)]);
-        let warrior = board.get_pieces()[0];
-        let moves = board.possible_moves(warrior);
+        let v = Vector3::new(5, 5, 1);
+        let warrior = Warrior::new(v, PLAYER1);
+        let mut board = Board::new_specified(vec![Box::new(warrior)]);
+        let warrior = board.board_piece(v).unwrap();
+        let moves = warrior.possible_moves();
         assert_grid(&moves, hashmap! {
             Vector3::new(5, 6, 1) => Move,
         });
@@ -27,11 +28,12 @@ mod warrior {
 
     #[test]
     fn basic_capture() {
-        let warrior = Warrior::new(Vector3::new(5, 5, 1), PLAYER1);
+        let v = Vector3::new(5, 5, 1);
+        let warrior = Warrior::new(v, PLAYER1);
         let warrior2 = Warrior::new(Vector3::new(6, 6, 1), PLAYER2);
-        let board = Board::new_specified(vec![Box::new(warrior), Box::new(warrior2)]);
-        let warrior = board.get_pieces()[0];
-        let moves = board.possible_moves(warrior);
+        let mut board = Board::new_specified(vec![Box::new(warrior), Box::new(warrior2)]);
+        let warrior = board.board_piece(v).unwrap();
+        let moves = warrior.possible_moves();
         assert_grid(&moves, hashmap! {
             Vector3::new(5, 6, 1) => Move,
             Vector3::new(6, 6, 1) => Capture,

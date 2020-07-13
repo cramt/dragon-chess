@@ -3,8 +3,10 @@ use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
 use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
 use crate::board::MoveType::{Move, Capture, RemoteCapture};
+use std::rc::Rc;
+use crate::board_piece::BoardPiece;
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
     Capture,
     RemoteCapture,
@@ -12,7 +14,7 @@ pub enum MoveType {
 }
 
 pub struct Board {
-    grid: Grid<Option<Box<dyn Piece>>>,
+    pub grid: Grid<Option<Box<dyn Piece>>>,
     dead_pieces: Vec<Box<dyn Piece>>,
 }
 
@@ -37,8 +39,8 @@ impl Board {
         res
     }
 
-    pub fn get_pieces(&self) -> Vec<&Box<dyn Piece>> {
-        self.grid.flat().iter().filter_map(|c| c.as_ref()).collect::<Vec<&Box<dyn Piece>>>()
+    pub fn board_piece(self, pos: Vector3) -> Option<BoardPiece> {
+        BoardPiece::new(pos, self)
     }
 
     pub fn possible_moves(&self, piece: &Box<dyn Piece>) -> Grid<Option<MoveType>> {
@@ -98,17 +100,16 @@ impl Board {
         moves
     }
 
-    pub fn move_piece(&mut self, piece: &Box<dyn Piece>, position: Vector3) -> Result<(), &str> {
-        let possible_moves = self.possible_moves(piece);
-        match &possible_moves[piece.get_position()] {
-            Some(move_type) => match move_type.clone() {
-                RemoteCapture => {
-                    self.kill_piece(&position);
+    pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<(), &str> {
+        match &possible_moves[&to] {
+            Some(move_type) => {
+                let move_type = *move_type;
+                if move_type != Move {
+                    self.kill_piece(&to);
                 }
-                Capture => {
-                    self.kill_piece(&position);
+                if move_type != RemoteCapture {
+                    self.change_position(&from, &to);
                 }
-                Move => {}
             }
             None => {
                 return Err("not a possible move");

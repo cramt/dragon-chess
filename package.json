@@ -65,7 +65,7 @@
     "start": "npm run wasm && node scripts/start.js",
     "build": "npm run wasm && node scripts/build.js",
     "test": "npm run wasm && node scripts/test.js",
-    "wasm": "wasm-pack build dragon_chess_lib --out-dir src/wasm_lib"
+    "wasm": "wasm-pack build dragon_chess_lib --out-dir ../src/wasm_lib"
   },
   "eslintConfig": {
     "extends": "react-app"
