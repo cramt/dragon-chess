@@ -5,11 +5,11 @@ mod cleric {
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
 
-    use crate::board::MoveType::{Move, Capture};
+    use crate::board::MoveType::{Move};
     use crate::tests::assert_grid::assert_grid;
 
     use maplit::*;
-    use crate::pieces::thief::Thief;
+    
     use crate::pieces::cleric::Cleric;
 
     const PLAYER1: Player = Player::new(1);
