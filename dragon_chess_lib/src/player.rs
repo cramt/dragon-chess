@@ -1,4 +1,4 @@
-#[derive(Copy, Clone, Hash)]
+#[derive(Copy, Clone)]
 pub struct Player {
     id: u64
 }

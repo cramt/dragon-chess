@@ -15,7 +15,6 @@ pub mod griffon;
 use crate::player::Player;
 
 use crate::pieces::move_set::MoveSet;
-use std::hash::{Hash, Hasher};
 
 pub trait Piece {
     fn get_position(&self) -> &Vector3;
@@ -48,18 +47,5 @@ impl std::fmt::Debug for dyn Piece {
 impl PartialEq for dyn Piece {
     fn eq(&self, other: &Self) -> bool {
         self.get_name() == other.get_name() && self.get_position() == other.get_position()
-    }
-}
-
-impl std::cmp::Eq for dyn Piece{
-
-}
-
-impl Hash for dyn Piece {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.get_position().hash(state);
-        self.get_player().hash(state);
-        self.get_name().hash(state);
-        self.get_char().hash(state);
     }
 }

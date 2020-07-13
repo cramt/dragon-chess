@@ -15,7 +15,7 @@ mod griffon {
     fn basic_move_from_upper() {
         let griffon = Griffon::new(Vector3::new(5, 3, 2), PLAYER1);
         let board = Board::new_specified(vec![Box::new(griffon)]);
-        let griffon = board.get_pieces()[0].clone();
+        let griffon = board.get_pieces()[0];
         let moves = board.possible_moves(griffon);
 
         assert_grid(&moves, hashmap! {
@@ -41,7 +41,7 @@ mod griffon {
     fn basic_move_from_middle() {
         let griffon = Griffon::new(Vector3::new(5, 3, 1), PLAYER1);
         let board = Board::new_specified(vec![Box::new(griffon)]);
-        let griffon = board.get_pieces()[0].clone();
+        let griffon = board.get_pieces()[0];
         let moves = board.possible_moves(griffon);
         assert_grid(&moves, hashmap! {
             Vector3::new(6, 4, 1) => Move,

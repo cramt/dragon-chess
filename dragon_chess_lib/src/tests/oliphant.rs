@@ -1,15 +1,15 @@
 #[cfg(test)]
 mod oliphant {
     use crate::board::{Board};
-
+    
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
-
+    
     use crate::board::MoveType::{Move};
     use crate::tests::assert_grid::assert_grid;
-
+    
     use maplit::*;
-
+    
     use crate::pieces::oliphant::Oliphant;
 
     const PLAYER1: Player = Player::new(1);
@@ -19,7 +19,7 @@ mod oliphant {
     fn basic_move() {
         let oliphant = Oliphant::new(Vector3::new(5, 5, 1), PLAYER1);
         let board = Board::new_specified(vec![Box::new(oliphant)]);
-        let oliphant = board.get_pieces()[0].clone();
+        let oliphant = board.get_pieces()[0];
         let moves = board.possible_moves(oliphant);
         assert_grid(&moves, hashmap! {
             //up to down

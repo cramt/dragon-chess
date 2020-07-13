@@ -3,8 +3,6 @@ use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
 use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
 use crate::board::MoveType::{Move, Capture, RemoteCapture};
-use std::rc::Rc;
-use wasm_bindgen::__rt::std::collections::HashMap;
 
 #[derive(PartialEq, Debug)]
 pub enum MoveType {
@@ -14,9 +12,8 @@ pub enum MoveType {
 }
 
 pub struct Board {
-    pieces: HashMap<Rc<&'static Box<dyn Piece>>, Box<dyn Piece>>,
-    grid: Grid<Option<Rc<&'static Box<dyn Piece>>>>,
-    dead_pieces: Vec<Rc<&'static Box<dyn Piece>>>,
+    grid: Grid<Option<Box<dyn Piece>>>,
+    dead_pieces: Vec<Box<dyn Piece>>,
 }
 
 impl Board {
@@ -25,23 +22,26 @@ impl Board {
     }
 
     pub fn new_specified(pieces: Vec<Box<dyn Piece>>) -> Board {
-        let mut p = HashMap::new();
-        for piece in pieces {
-            let rc = Rc::from(&piece);
-            p.insert(rc, piece);
-        }
         Board {
-            grid: Grid::from_map(p.iter().map(|(rc, b)| (rc.get_position().clone(), Some(rc.clone()))).collect()),
-            pieces: p,
+            grid: Board::build_state(pieces),
             dead_pieces: vec![],
         }
     }
 
-    pub fn get_pieces(&self) -> Vec<Rc<&Box<dyn Piece>>> {
-        self.grid.flat().iter().filter_map(|c| c.as_ref()).cloned().collect::<Vec<Rc<&Box<dyn Piece>>>>()
+    pub(self) fn build_state(pieces: Vec<Box<dyn Piece>>) -> Grid<Option<Box<dyn Piece>>> {
+        let mut res = Grid::new();
+        for p in pieces {
+            let position = p.get_position().clone();
+            res[&position] = Some(p);
+        }
+        res
     }
 
-    pub fn possible_moves(&self, piece: Rc<&Box<dyn Piece>>) -> Grid<Option<MoveType>> {
+    pub fn get_pieces(&self) -> Vec<&Box<dyn Piece>> {
+        self.grid.flat().iter().filter_map(|c| c.as_ref()).collect::<Vec<&Box<dyn Piece>>>()
+    }
+
+    pub fn possible_moves(&self, piece: &Box<dyn Piece>) -> Grid<Option<MoveType>> {
         let mut moves = Grid::new();
         let move_dirs = piece.move_directions();
         let cap_dirs = piece.capture_directions();
@@ -98,8 +98,8 @@ impl Board {
         moves
     }
 
-    pub fn move_piece(&mut self, piece: Rc<&Box<dyn Piece>>, position: Vector3) -> Result<(), &str> {
-        let possible_moves = self.possible_moves(piece.clone());
+    pub fn move_piece(&mut self, piece: &Box<dyn Piece>, position: Vector3) -> Result<(), &str> {
+        let possible_moves = self.possible_moves(piece);
         match &possible_moves[piece.get_position()] {
             Some(move_type) => match move_type.clone() {
                 RemoteCapture => {
@@ -121,14 +121,14 @@ impl Board {
         let from = self.grid.swap(from_position, None);
         let to = self.grid.swap(to_position, None);
         if to.is_some() {
-            let piece = to.unwrap();
-            self.pieces.get_mut(&piece).unwrap().set_position(*from_position);
+            let mut piece = to.unwrap();
+            piece.set_position(*from_position);
             //piece.set_position(*from_position);
             self.grid.swap(from_position, Some(piece));
         }
         if from.is_some() {
-            let piece = from.unwrap();
-            self.pieces.get_mut(&piece).unwrap().set_position(*to_position);
+            let mut piece = from.unwrap();
+            piece.set_position(*to_position);
             //piece.set_position(*to_position);
             self.grid.swap(to_position, Some(piece));
         }

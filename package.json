@@ -62,9 +62,10 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "start": "npm run wasm && node scripts/start.js",
+    "build": "npm run wasm && node scripts/build.js",
+    "test": "npm run wasm && node scripts/test.js",
+    "wasm": "wasm-pack build dragon_chess_lib --out-dir src/wasm_lib"
   },
   "eslintConfig": {
     "extends": "react-app"

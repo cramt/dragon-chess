@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod griffon {
-
+    
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
     use crate::board::Board;
@@ -16,7 +16,7 @@ mod griffon {
     fn basic_move() {
         let dragon = Dragon::new(Vector3::new(7, 3, 2), PLAYER1);
         let board = Board::new_specified(vec![Box::new(dragon)]);
-        let dragon = board.get_pieces()[0].clone();
+        let dragon = board.get_pieces()[0];
         let moves = board.possible_moves(dragon);
 
         assert_grid(&moves, hashmap! {
