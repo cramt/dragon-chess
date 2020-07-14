@@ -3,16 +3,16 @@ use crate::board::{Board, MoveType};
 use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
 
-pub struct BoardPiece {
+pub struct BoardPiece<'a> {
     piece: Vector3,
-    board: Board,
+    board: &'a mut Board,
 }
 
-impl BoardPiece {
-    pub fn new(pos: Vector3, board: Board) -> Option<BoardPiece> {
+impl<'a> BoardPiece<'a> {
+    pub fn new(pos: Vector3, board: &'a mut Board) -> Option<BoardPiece::<'a>> {
         match board.grid[&pos].as_ref() {
             Some(_piece) => {
-                Some(BoardPiece {
+                Some(BoardPiece::<'a> {
                     piece: pos,
                     board,
                 })
@@ -36,9 +36,5 @@ impl BoardPiece {
             self.piece = position;
         }
         result
-    }
-
-    pub fn done(self) -> Board {
-        self.board
     }
 }

@@ -13,11 +13,12 @@ mod sylph {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(1);
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move_from_upper() {
         let v = Vector3::new(5, 5, 2);
         let sylph = Sylph::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(sylph)]);
+        let mut board = Board::new_specified(vec![Box::new(sylph)]);
         let sylph = board.board_piece(v).unwrap();
         let moves = sylph.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -27,11 +28,12 @@ mod sylph {
         });
     }
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move_from_middle() {
         let v = Vector3::new(5, 5, 1);
         let sylph = Sylph::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(sylph)]);
+        let mut board = Board::new_specified(vec![Box::new(sylph)]);
         let sylph = board.board_piece(v).unwrap();
         let moves = sylph.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -45,12 +47,13 @@ mod sylph {
         })
     }
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_capture() {
         let v = Vector3::new(5, 5, 2);
         let sylph = Sylph::new(v, PLAYER1);
         let sylph2 = Sylph::new(Vector3::new(5, 6, 2), PLAYER2);
-        let board = Board::new_specified(vec![Box::new(sylph), Box::new(sylph2)]);
+        let mut board = Board::new_specified(vec![Box::new(sylph), Box::new(sylph2)]);
         let sylph = board.board_piece(v).unwrap();
         let moves = sylph.possible_moves();
         assert_grid(&moves, hashmap! {

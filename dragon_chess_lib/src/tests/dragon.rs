@@ -1,6 +1,5 @@
 #[cfg(test)]
 mod griffon {
-
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
     use crate::board::Board;
@@ -12,11 +11,12 @@ mod griffon {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(1);
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move() {
         let v = Vector3::new(7, 3, 2);
         let dragon = Dragon::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(dragon)]);
+        let mut board = Board::new_specified(vec![Box::new(dragon)]);
         let dragon = board.board_piece(v).unwrap();
         let moves = dragon.possible_moves();
 

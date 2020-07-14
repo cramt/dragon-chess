@@ -11,11 +11,12 @@ mod griffon {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(1);
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move_from_upper() {
         let v = Vector3::new(5, 3, 2);
         let griffon = Griffon::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(griffon)]);
+        let mut board = Board::new_specified(vec![Box::new(griffon)]);
         let griffon = board.board_piece(v).unwrap();
         let moves = griffon.possible_moves();
 
@@ -38,11 +39,12 @@ mod griffon {
         })
     }
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move_from_middle() {
         let v = Vector3::new(5, 3, 1);
         let griffon = Griffon::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(griffon)]);
+        let mut board = Board::new_specified(vec![Box::new(griffon)]);
         let griffon = board.board_piece(v).unwrap();
         let moves = griffon.possible_moves();
         assert_grid(&moves, hashmap! {

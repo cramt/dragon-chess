@@ -40,7 +40,7 @@ impl Board {
         state
     }
 
-    pub fn board_piece(self, pos: Vector3) -> Option<BoardPiece> {
+    pub fn board_piece(&mut self, pos: Vector3) -> Option<BoardPiece> {
         BoardPiece::new(pos, self)
     }
 

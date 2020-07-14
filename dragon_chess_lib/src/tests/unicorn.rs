@@ -15,11 +15,12 @@ mod unicorn {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(1);
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let unicorn = Unicorn::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(unicorn)]);
+        let mut board = Board::new_specified(vec![Box::new(unicorn)]);
         let unicorn = board.board_piece(v).unwrap();
         let moves = unicorn.possible_moves();
         assert_grid(&moves, hashmap! {

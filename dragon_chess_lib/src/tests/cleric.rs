@@ -9,17 +9,18 @@ mod cleric {
     use crate::tests::assert_grid::assert_grid;
 
     use maplit::*;
-    
+
     use crate::pieces::cleric::Cleric;
 
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(1);
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let cleric = Cleric::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(cleric)]);
+        let mut board = Board::new_specified(vec![Box::new(cleric)]);
         let cleric = board.board_piece(v).unwrap();
         let moves = cleric.possible_moves();
 

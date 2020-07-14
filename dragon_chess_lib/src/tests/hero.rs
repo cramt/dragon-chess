@@ -9,17 +9,17 @@ mod hero {
     use maplit::*;
 
     use crate::pieces::hero::Hero;
-    
 
 
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(1);
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let hero = Hero::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(hero)]);
+        let mut board = Board::new_specified(vec![Box::new(hero)]);
         let hero = board.board_piece(v).unwrap();
         let moves = hero.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -51,11 +51,12 @@ mod hero {
         });
     }
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move_back() {
         let v = Vector3::new(5, 5, 1);
         let hero = Hero::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(hero)]);
+        let mut board = Board::new_specified(vec![Box::new(hero)]);
         let mut hero = board.board_piece(v).unwrap();
         hero.move_piece(Vector3::new(6, 6, 2));
         let moves = hero.possible_moves();

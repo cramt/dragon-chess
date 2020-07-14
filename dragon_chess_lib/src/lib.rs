@@ -1,5 +1,7 @@
+mod board_controller;
 mod board_piece;
 
+extern crate wasm_bindgen_test;
 extern crate wasm_bindgen;
 extern crate console_error_panic_hook;
 

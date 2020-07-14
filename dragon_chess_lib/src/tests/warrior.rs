@@ -14,11 +14,12 @@ mod warrior {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(1);
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let warrior = Warrior::new(v, PLAYER1);
-        let board = Board::new_specified(vec![Box::new(warrior)]);
+        let mut board = Board::new_specified(vec![Box::new(warrior)]);
         let warrior = board.board_piece(v).unwrap();
         let moves = warrior.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -26,12 +27,13 @@ mod warrior {
         });
     }
 
+    #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]
     fn basic_capture() {
         let v = Vector3::new(5, 5, 1);
         let warrior = Warrior::new(v, PLAYER1);
         let warrior2 = Warrior::new(Vector3::new(6, 6, 1), PLAYER2);
-        let board = Board::new_specified(vec![Box::new(warrior), Box::new(warrior2)]);
+        let mut board = Board::new_specified(vec![Box::new(warrior), Box::new(warrior2)]);
         let warrior = board.board_piece(v).unwrap();
         let moves = warrior.possible_moves();
         assert_grid(&moves, hashmap! {
