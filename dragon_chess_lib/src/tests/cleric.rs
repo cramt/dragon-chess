@@ -20,7 +20,7 @@ mod cleric {
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let cleric = Cleric::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(cleric)]);
+        let mut board = Board::new_specified(vec![Box::new(cleric)], PLAYER1, PLAYER2);
         let cleric = board.board_piece(v).unwrap();
         let moves = cleric.possible_moves();
 

@@ -6,6 +6,22 @@ use crate::board::MoveType::{Move, Capture, RemoteCapture};
 
 use crate::board_piece::BoardPiece;
 use crate::pieces::move_set::MoveSet;
+use crate::pieces::griffon::Griffon;
+use crate::player::Player;
+use crate::pieces::sylph::Sylph;
+use crate::pieces::dragon::Dragon;
+use crate::pieces::warrior::Warrior;
+use crate::pieces::oliphant::Oliphant;
+use crate::pieces::unicorn::Unicorn;
+use crate::pieces::hero::Hero;
+use crate::pieces::thief::Thief;
+use crate::pieces::mage::Mage;
+use crate::pieces::cleric::Cleric;
+use crate::pieces::king::King;
+use crate::pieces::paladin::Paladin;
+use crate::pieces::dwarf::Dwarf;
+use crate::pieces::basilisk::Basilisk;
+use crate::pieces::elemental::Elemental;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
@@ -15,20 +31,135 @@ pub enum MoveType {
 }
 
 pub struct Board {
+    white: Player,
+    black: Player,
     pub grid: Grid<Option<Box<dyn Piece>>>,
     dead_pieces: Vec<Box<dyn Piece>>,
 }
 
 impl Board {
-    pub fn new() -> Board {
-        Board::new_specified(vec![])
-    }
-
-    pub fn new_specified(pieces: Vec<Box<dyn Piece>>) -> Board {
+    pub fn new_specified(pieces: Vec<Box<dyn Piece>>, white: Player, black: Player) -> Board {
         Board {
+            white,
+            black,
             grid: Board::build_state(pieces),
             dead_pieces: vec![],
         }
+    }
+
+    pub fn new_default() -> Board {
+        let white = Player::new(1);
+        let black = Player::new(2);
+        Board::new_specified(vec![
+            //griffon white
+            Box::new(Griffon::new(Vector3::new(2, 0, 2), white)),
+            Box::new(Griffon::new(Vector3::new(10, 0, 2), white)),
+            //griffon black
+            Box::new(Griffon::new(Vector3::new(2, 7, 2), black)),
+            Box::new(Griffon::new(Vector3::new(10, 7, 2), black)),
+            //sylph white
+            Box::new(Sylph::new(Vector3::new(0, 1, 2), white)),
+            Box::new(Sylph::new(Vector3::new(2, 1, 2), white)),
+            Box::new(Sylph::new(Vector3::new(4, 1, 2), white)),
+            Box::new(Sylph::new(Vector3::new(6, 1, 2), white)),
+            Box::new(Sylph::new(Vector3::new(8, 1, 2), white)),
+            Box::new(Sylph::new(Vector3::new(10, 1, 2), white)),
+            //sylph black
+            Box::new(Sylph::new(Vector3::new(0, 6, 2), black)),
+            Box::new(Sylph::new(Vector3::new(2, 6, 2), black)),
+            Box::new(Sylph::new(Vector3::new(4, 6, 2), black)),
+            Box::new(Sylph::new(Vector3::new(6, 6, 2), black)),
+            Box::new(Sylph::new(Vector3::new(8, 6, 2), black)),
+            Box::new(Sylph::new(Vector3::new(10, 6, 2), black)),
+            //dragons
+            Box::new(Dragon::new(Vector3::new(6, 0, 2), white)),
+            Box::new(Dragon::new(Vector3::new(6, 7, 2), black)),
+            //warrior white
+            Box::new(Warrior::new(Vector3::new(0, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(1, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(2, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(3, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(4, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(5, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(6, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(7, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(8, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(9, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(10, 1, 1), white)),
+            Box::new(Warrior::new(Vector3::new(11, 1, 1), white)),
+            //warrior black
+            Box::new(Warrior::new(Vector3::new(0, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(1, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(2, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(3, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(4, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(5, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(6, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(7, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(8, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(9, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(10, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(11, 7, 1), black)),
+            //oliphant white
+            Box::new(Oliphant::new(Vector3::new(0, 0, 1), white)),
+            Box::new(Oliphant::new(Vector3::new(11, 0, 1), white)),
+            //oliphant black
+            Box::new(Oliphant::new(Vector3::new(0, 7, 1), black)),
+            Box::new(Oliphant::new(Vector3::new(11, 7, 1), black)),
+            //unicorn white
+            Box::new(Unicorn::new(Vector3::new(1, 0, 1), white)),
+            Box::new(Unicorn::new(Vector3::new(10, 0, 1), white)),
+            //unicorn black
+            Box::new(Unicorn::new(Vector3::new(1, 7, 1), black)),
+            Box::new(Unicorn::new(Vector3::new(10, 7, 1), black)),
+            //hero white
+            Box::new(Hero::new(Vector3::new(2, 0, 1), white)),
+            Box::new(Hero::new(Vector3::new(9, 0, 1), white)),
+            //hero black
+            Box::new(Hero::new(Vector3::new(2, 7, 1), black)),
+            Box::new(Hero::new(Vector3::new(9, 7, 1), black)),
+            //thief white
+            Box::new(Thief::new(Vector3::new(3, 0, 1), white)),
+            Box::new(Thief::new(Vector3::new(8, 0, 1), white)),
+            //thief black
+            Box::new(Thief::new(Vector3::new(3, 7, 1), black)),
+            Box::new(Thief::new(Vector3::new(8, 7, 1), black)),
+            //clerics
+            Box::new(Cleric::new(Vector3::new(4, 0, 1), white)),
+            Box::new(Cleric::new(Vector3::new(4, 7, 1), black)),
+            //mages
+            Box::new(Mage::new(Vector3::new(5, 0, 1), white)),
+            Box::new(Mage::new(Vector3::new(5, 7, 1), black)),
+            //kings
+            Box::new(King::new(Vector3::new(6, 0, 1), white)),
+            Box::new(King::new(Vector3::new(6, 7, 1), black)),
+            //paladins
+            Box::new(Paladin::new(Vector3::new(7, 0, 1), white)),
+            Box::new(Paladin::new(Vector3::new(7, 7, 1), black)),
+            //dwarf white
+            Box::new(Dwarf::new(Vector3::new(1, 1, 0), white)),
+            Box::new(Dwarf::new(Vector3::new(3, 1, 0), white)),
+            Box::new(Dwarf::new(Vector3::new(5, 1, 0), white)),
+            Box::new(Dwarf::new(Vector3::new(7, 1, 0), white)),
+            Box::new(Dwarf::new(Vector3::new(9, 1, 0), white)),
+            Box::new(Dwarf::new(Vector3::new(11, 1, 0), white)),
+            //dwarf black
+            Box::new(Dwarf::new(Vector3::new(1, 6, 0), black)),
+            Box::new(Dwarf::new(Vector3::new(3, 6, 0), black)),
+            Box::new(Dwarf::new(Vector3::new(5, 6, 0), black)),
+            Box::new(Dwarf::new(Vector3::new(7, 6, 0), black)),
+            Box::new(Dwarf::new(Vector3::new(9, 6, 0), black)),
+            Box::new(Dwarf::new(Vector3::new(11, 6, 0), black)),
+            //basilisk white
+            Box::new(Basilisk::new(Vector3::new(2, 0, 0), white)),
+            Box::new(Basilisk::new(Vector3::new(10, 0, 0), white)),
+            //basilisk black
+            Box::new(Basilisk::new(Vector3::new(2, 7, 0), black)),
+            Box::new(Basilisk::new(Vector3::new(10, 7, 0), black)),
+            //elementals
+            Box::new(Elemental::new(Vector3::new(6,0,0), white)),
+            Box::new(Elemental::new(Vector3::new(6,7,0), black)),
+        ], white, black)
     }
 
     pub(self) fn build_state(pieces: Vec<Box<dyn Piece>>) -> Grid<Option<Box<dyn Piece>>> {

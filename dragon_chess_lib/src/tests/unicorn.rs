@@ -20,7 +20,7 @@ mod unicorn {
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let unicorn = Unicorn::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(unicorn)]);
+        let mut board = Board::new_specified(vec![Box::new(unicorn)], PLAYER1, PLAYER2);
         let unicorn = board.board_piece(v).unwrap();
         let moves = unicorn.possible_moves();
         assert_grid(&moves, hashmap! {

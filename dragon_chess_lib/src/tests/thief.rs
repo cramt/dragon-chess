@@ -19,7 +19,7 @@ mod thief {
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let thief = Thief::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(thief)]);
+        let mut board = Board::new_specified(vec![Box::new(thief)], PLAYER1, PLAYER2);
         let thief = board.board_piece(v).unwrap();
         let moves = thief.possible_moves();
         assert_grid(&moves, hashmap! {

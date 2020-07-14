@@ -20,7 +20,7 @@ mod oliphant {
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let oliphant = Oliphant::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(oliphant)]);
+        let mut board = Board::new_specified(vec![Box::new(oliphant)], PLAYER1, PLAYER2);
         let oliphant = board.board_piece(v).unwrap();
         let moves = oliphant.possible_moves();
         assert_grid(&moves, hashmap! {

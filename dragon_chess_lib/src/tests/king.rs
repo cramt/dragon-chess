@@ -20,7 +20,7 @@ mod hero {
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
         let king = King::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(king)]);
+        let mut board = Board::new_specified(vec![Box::new(king)], PLAYER1, PLAYER2);
         let king = board.board_piece(v).unwrap();
         let moves = king.possible_moves();
         assert_grid(&moves, hashmap! {
@@ -47,7 +47,7 @@ mod hero {
     fn basic_move_back() {
         let v = Vector3::new(5, 5, 1);
         let king = King::new(v, PLAYER1);
-        let mut board = Board::new_specified(vec![Box::new(king)]);
+        let mut board = Board::new_specified(vec![Box::new(king)], PLAYER1, PLAYER2);
         let mut king = board.board_piece(v).unwrap();
         king.move_piece(Vector3::new(5, 5, 2));
         let moves = king.possible_moves();
