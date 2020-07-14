@@ -1,6 +1,6 @@
-use std::default::Default;
 
-use crate::pieces::move_set::{MoveSet, MoveSetArg, MoveSetBuilder};
+
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::Piece;
 use crate::pieces::vector3::Vector3;
 use crate::player::Player;
