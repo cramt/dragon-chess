@@ -44,10 +44,16 @@ pub trait Piece {
         self.get_name().to_uppercase().chars().collect::<Vec<char>>()[0]
     }
 
-    fn promote(&self) -> Option<Box<dyn Piece>>;
+    fn promote(&self) -> Option<Box<dyn Piece>> {
+        None
+    }
 
     fn freeze_zone(&self) -> Option<Vec<MoveSet>> {
         None
+    }
+
+    fn is_king(&self) -> bool {
+        false
     }
 }
 

@@ -60,10 +60,6 @@ impl Piece for Dwarf {
     fn get_name(&self) -> &str {
         "dwarf"
     }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
 }
 
 impl Dwarf {

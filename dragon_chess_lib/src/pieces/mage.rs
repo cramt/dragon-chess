@@ -64,14 +64,6 @@ impl Piece for Mage {
     fn get_name(&self) -> &str {
         "mage"
     }
-
-    fn get_char(&self) -> char {
-        'M'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
 }
 
 impl Mage {

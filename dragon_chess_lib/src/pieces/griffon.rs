@@ -1,16 +1,16 @@
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSetArg, MoveSet};
+use crate::pieces::move_set::{MoveSetArg, MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use std::default::Default;
 use crate::player::Player;
 
 pub struct Griffon {
     position: Vector3,
-    player: Player
+    player: Player,
 }
 
 impl Piece for Griffon {
-    fn get_position(& self) -> & Vector3 {
+    fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
 
@@ -18,7 +18,7 @@ impl Piece for Griffon {
         self.position = pos;
     }
 
-    fn get_player(& self) -> & Player {
+    fn get_player(&self) -> &Player {
         return &self.player;
     }
 
@@ -28,31 +28,22 @@ impl Piece for Griffon {
 
     fn move_directions(&self) -> Vec<MoveSet> {
         if self.position.z == 2 {
-            lazy_static! {
-                static ref R: Vec<MoveSet> = vec![MoveSetArg {
-                    directions: vec![
-                        Vector3::new(3, 1, 0),
-                        Vector3::new(1, 3, 0),
-                        Vector3::new(1, 1, -1)],
-                    mirrored_y: true,
-                    mirrored_x: true,
-                    ..Default::default()
-                }.build()];
-            }
-            return R.to_vec();
+            return vec![
+                MoveSetBuilder::new()
+                    .direction(Vector3::new(3, 1, 0))
+                    .direction(Vector3::new(1, 3, 0))
+                    .direction(Vector3::new(1, 1, -1))
+                    .mirrored()
+                    .build()
+            ];
         }
-        lazy_static! {
-            static ref R: Vec<MoveSet> = vec![MoveSetArg {
-                directions: vec![
-                    Vector3::new(1, 1, 0),
-                    Vector3::new(1, 1, 1)
-                ],
-                mirrored_x: true,
-                mirrored_y: true,
-                ..Default::default()
-            }.build()];
-        }
-        return R.to_vec();
+        vec![
+            MoveSetBuilder::new()
+                .mirrored()
+                .direction(Vector3::new(1, 1, 0))
+                .direction(Vector3::new(1, 1, 1))
+                .build()
+        ]
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {

@@ -54,8 +54,7 @@ impl Piece for King {
     fn capture_directions(&self) -> Vec<MoveSet> {
         if self.position.z == 1 {
             self.move_directions()
-        }
-        else {
+        } else {
             vec![]
         }
     }
@@ -64,12 +63,8 @@ impl Piece for King {
         "king"
     }
 
-    fn get_char(&self) -> char {
-        'K'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
+    fn is_king(&self) -> bool {
+        true
     }
 }
 

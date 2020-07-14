@@ -50,10 +50,6 @@ impl Piece for Basilisk {
         "basilisk"
     }
 
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
-
     fn freeze_zone(&self) -> Option<Vec<MoveSet>> {
         Some(vec![
             MoveSetBuilder::new()

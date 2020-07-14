@@ -1,6 +1,6 @@
 use std::default::Default;
 
-use crate::pieces::move_set::{MoveSet, MoveSetArg};
+use crate::pieces::move_set::{MoveSet, MoveSetArg, MoveSetBuilder};
 use crate::pieces::Piece;
 use crate::pieces::vector3::Vector3;
 use crate::player::Player;
@@ -28,16 +28,14 @@ impl Piece for Oliphant {
     }
 
     fn move_directions(&self) -> Vec<MoveSet> {
-        vec![MoveSetArg {
-            directions: vec![
-                Vector3::new(0, 1, 0),
-                Vector3::new(1, 0, 0)
-            ],
-            mirrored_y: true,
-            mirrored_x: true,
-            repeated: true,
-            ..Default::default()
-        }.build()]
+        vec![
+            MoveSetBuilder::new()
+                .direction(Vector3::new(1, 0, 0))
+                .direction(Vector3::new(0, 1, 0))
+                .mirrored()
+                .repeated()
+                .build()
+        ]
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
@@ -46,14 +44,6 @@ impl Piece for Oliphant {
 
     fn get_name(&self) -> &str {
         "oliphant"
-    }
-
-    fn get_char(&self) -> char {
-        'O'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
     }
 }
 

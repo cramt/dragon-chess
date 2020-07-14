@@ -64,10 +64,6 @@ impl Piece for Paladin {
     fn get_name(&self) -> &str {
         "paladin"
     }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
 }
 
 impl Paladin {

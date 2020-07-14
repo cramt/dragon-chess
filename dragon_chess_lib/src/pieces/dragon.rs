@@ -1,5 +1,5 @@
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSetArg, MoveSet};
+use crate::pieces::move_set::{MoveSetArg, MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use std::default::Default;
 use crate::player::Player;
@@ -27,40 +27,29 @@ impl Piece for Dragon {
     }
 
     fn move_directions(&self) -> Vec<MoveSet> {
-        lazy_static! {
-            static ref R: Vec<MoveSet> = vec![MoveSetArg {
-                directions: vec![
-                    Vector3::new(1, 1, 0),
-                ],
-                mirrored_x: true,
-                mirrored_y: true,
-                repeated: true,
-                ..Default::default()
-            }.build(), MoveSetArg {
-                directions: vec![
-                    Vector3::new(1, 0, 0),
-                    Vector3::new(0, 1, 0),
-                ],
-                mirrored_x: true,
-                mirrored_y: true,
-                ..Default::default()
-            }.build()];
-        }
-        return R.to_vec();
+        vec![MoveSetBuilder::new()
+                 .direction(Vector3::new(1, 1, 0))
+                 .mirrored()
+                 .repeated()
+                 .build(),
+             MoveSetBuilder::new()
+                 .direction(Vector3::new(1, 0, 0))
+                 .direction(Vector3::new(0, 1, 0))
+                 .mirrored()
+                 .build()
+        ]
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
         let mut move_dir = self.move_directions();
-        move_dir.push(MoveSetArg {
-            directions: vec![
-                Vector3::new(0, 0, -1),
-                Vector3::new(1, 1, -1),
-            ],
-            mirrored_x: true,
-            mirrored_y: true,
-            remote: true,
-            ..Default::default()
-        }.build());
+        move_dir.push(
+            MoveSetBuilder::new()
+                .mirrored()
+                .remote()
+                .direction(Vector3::new(0, 0, 1))
+                .direction(Vector3::new(1, 1, -0))
+                .build()
+        );
         move_dir
     }
 
@@ -70,10 +59,6 @@ impl Piece for Dragon {
 
     fn get_char(&self) -> char {
         'R'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
     }
 }
 

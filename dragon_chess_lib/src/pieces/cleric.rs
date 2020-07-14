@@ -48,14 +48,6 @@ impl Piece for Cleric {
     fn get_name(&self) -> &str {
         "Cleric"
     }
-
-    fn get_char(&self) -> char {
-        'T'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
 }
 
 impl Cleric {

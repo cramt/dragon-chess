@@ -42,14 +42,6 @@ impl Piece for Unicorn {
     fn get_name(&self) -> &str {
         "unicorn"
     }
-
-    fn get_char(&self) -> char {
-        'U'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
 }
 
 impl Unicorn {

@@ -47,10 +47,6 @@ impl Piece for Warrior {
         "warrior"
     }
 
-    fn get_char(&self) -> char {
-        'W'
-    }
-
     fn promote(&self) -> Option<Box<dyn Piece>> {
         Some(Box::new(Hero::new(self.position, self.player)))
     }

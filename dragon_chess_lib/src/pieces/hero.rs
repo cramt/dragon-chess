@@ -59,14 +59,6 @@ impl Piece for Hero {
     fn get_name(&self) -> &str {
         "hero"
     }
-
-    fn get_char(&self) -> char {
-        'H'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
 }
 
 impl Hero {

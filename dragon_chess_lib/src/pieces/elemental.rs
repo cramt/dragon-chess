@@ -56,10 +56,6 @@ impl Piece for Elemental {
     fn get_name(&self) -> &str {
         "elemental"
     }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
 }
 
 impl Elemental {
