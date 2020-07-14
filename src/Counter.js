@@ -7,7 +7,7 @@ export default class Counter extends React.Component {
             counter: props.start || 0
         }
     }
-    increment = () => {
+    increment(){
         this.setState({
             count: this.state.counter + 1
         })

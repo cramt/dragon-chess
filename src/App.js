@@ -11,12 +11,15 @@ export default class App extends React.Component {
             counter: 0
         }
     }
-    increment = () => {
+    increment() {
         this.setState({
             counter: this.state.counter + 1
         })
     }
     render() {
+        import("./wasm_lib").then(module => {
+            console.log(module.return_string())
+        })
         return (
             <div className="App">
                 <header className="App-header">
@@ -33,7 +36,7 @@ export default class App extends React.Component {
                         Learn React
                 </a>
                 </header>
-                <Counter start={2}/>
+                <Counter start={2} />
             </div>
         );
     }
