@@ -48,6 +48,20 @@ impl<T> Grid<T> where T: Default + PartialEq {
         v
     }
 
+    pub fn flat_with_index_owned(self) -> Vec<(Vector3, T)> where T: Copy {
+        let mut v = vec![];
+        for x in 0..self.array.len() {
+            for y in 0..self.array[x].len() {
+                for z in 0..self.array[x][y].len() {
+                    let ve = Vector3::new(z as i32, y as i32, x as i32);
+                    let t = self[&ve];
+                    v.push((ve, t));
+                }
+            }
+        }
+        v
+    }
+
     pub(crate) fn valid(&self, index: &Vector3) -> IndexValid {
         if !self.within_bounds(index) {
             return OutOfBounds;

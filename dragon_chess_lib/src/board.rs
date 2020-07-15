@@ -22,7 +22,6 @@ use crate::pieces::paladin::Paladin;
 use crate::pieces::dwarf::Dwarf;
 use crate::pieces::basilisk::Basilisk;
 use crate::pieces::elemental::Elemental;
-use js_sys::property_is_enumerable;
 use wasm_bindgen::__rt::std::collections::HashMap;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
@@ -177,40 +176,12 @@ impl Board {
         BoardPiece::new(pos, self)
     }
 
-    fn enemy_freeze_zone(&self) -> Grid<Option<MoveType>> {
-        self.grid.flat().iter()
-            .filter(|x| x.is_some())
-            .map(|x| x.as_ref().unwrap())
-            .filter(|x| x.get_player() != piece.get_player())
-            .filter(|x| x.freeze_zone().is_some())
-            .map(|x| (x.freeze_zone().unwrap(), *x.get_position()))
-            .fold(Grid::new(), |acc, x| {
-                let mut grid = Grid::new();
-                self.unwrap_from_move_dirs(x.0, x.1, &mut grid);
-                acc.concat(grid)
-            })
-    }
-
-    fn allied_freeze_zone(&self) -> Grid<Option<MoveType>> {
-        self.grid.flat().iter()
-            .filter(|x| x.is_some())
-            .map(|x| x.as_ref().unwrap())
-            .filter(|x| x.get_player() == piece.get_player())
-            .filter(|x| x.freeze_zone().is_some())
-            .map(|x| (x.freeze_zone().unwrap(), *x.get_position()))
-            .fold(Grid::new(), |acc, x| {
-                let mut grid = Grid::new();
-                self.unwrap_from_move_dirs(x.0, x.1, &mut grid);
-                acc.concat(grid)
-            })
-    }
-
     pub fn possible_moves(&self, piece: &Box<dyn Piece>) -> Grid<Option<MoveType>> {
         self.possible_moves_recursive(piece, true)
     }
 
     fn possible_moves_recursive(&self, piece: &Box<dyn Piece>, first: bool) -> Grid<Option<MoveType>> {
-        let freeze_zone = self.enemy_freeze_zone();
+        let freeze_zone = self.enemy_freeze_zone(piece.get_player());
         if freeze_zone[piece.get_position()].is_some() {
             return Grid::new();
         }
@@ -218,22 +189,21 @@ impl Board {
         let move_dirs = piece.move_directions();
         let cap_dirs = piece.capture_directions();
         self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
-        self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), &mut moves);
+        self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), piece.get_player(), &mut moves);
         if piece.is_king() && first {
             let taking_candidate = self.grid.flat().into_iter()
                 .filter(|x| x.is_some())
                 .map(|x| x.as_ref().unwrap())
                 .filter(|x| x.get_player() != piece.get_player())
-                .filter(|x| own_freeze_zone[x.get_position()].is_none())
-                .map(|x| self.possible_moves_recursive(piece, false).flat_with_index())
+                .map(|x| self.possible_moves_recursive(piece, false))
+                .map(|x| x.flat_with_index_owned())
                 .fold(vec![], |mut acc, mut x| {
                     acc.append(&mut x);
                     acc
                 }).into_iter()
-                .map(|(x, y)| (x, y.as_ref()))
                 .filter(|(x, y)| y.is_some())
-                .map(|(x, y)| (x, *y.unwrap()))
-                .filter(|(x, y)| y == Capture || y == RemoteCapture)
+                .map(|(x, y)| (x, y.unwrap()))
+                .filter(|(x, y)| *y == Capture || *y == RemoteCapture)
                 .collect::<HashMap<Vector3, MoveType>>().into_iter()
                 .map(|(x, y)| x)
                 .collect::<Vec<Vector3>>();
@@ -244,7 +214,21 @@ impl Board {
         moves
     }
 
-    fn unwrap_from_capture_dirs(&self, cap_dirs: Vec<MoveSet>, piece_position: Vector3, moves: &mut Grid<Option<MoveType>>) {
+    fn enemy_freeze_zone(&self, player: &Player) -> Grid<Option<MoveType>> {
+        self.grid.flat().iter()
+            .filter(|x| x.is_some())
+            .map(|x| x.as_ref().unwrap())
+            .filter(|x| x.get_player() != player)
+            .filter(|x| x.freeze_zone().is_some())
+            .map(|x| (x.freeze_zone().unwrap(), *x.get_position()))
+            .fold(Grid::new(), |acc, x| {
+                let mut grid = Grid::new();
+                self.unwrap_from_move_dirs(x.0, x.1, &mut grid);
+                acc.concat(grid)
+            })
+    }
+
+    fn unwrap_from_capture_dirs(&self, cap_dirs: Vec<MoveSet>, piece_position: Vector3, player: &Player, moves: &mut Grid<Option<MoveType>>) {
         for cap_dir in cap_dirs {
             if cap_dir.repeated {
                 for dir in &cap_dir.directions {
@@ -254,7 +238,7 @@ impl Board {
                             OutOfBounds => break,
                             DefaultValue => {}
                             NonDefaultValue => {
-                                if self.grid[&curr].as_ref().unwrap().get_player() != piece.get_player() {
+                                if self.grid[&curr].as_ref().unwrap().get_player() != player {
                                     moves[&curr] = Some(Capture);
                                 }
                                 break;
