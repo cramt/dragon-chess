@@ -48,9 +48,7 @@ impl Board {
         }
     }
 
-    pub fn new_default() -> Board {
-        let white = Player::new(1);
-        let black = Player::new(2);
+    pub fn new_default_with_players(white: Player, black: Player) -> Board {
         Board::new_specified(vec![
             //griffon white
             Box::new(Griffon::new(Vector3::new(2, 0, 2), white)),
@@ -161,6 +159,12 @@ impl Board {
             Box::new(Elemental::new(Vector3::new(6, 0, 0), white)),
             Box::new(Elemental::new(Vector3::new(6, 7, 0), black)),
         ], white, black)
+    }
+
+    pub fn new_default() -> Board {
+        let white = Player::new(1);
+        let black = Player::new(2);
+        Board::new_default_with_players(white, black)
     }
 
     pub(self) fn build_state(pieces: Vec<Box<dyn Piece>>) -> Grid<Option<Box<dyn Piece>>> {
