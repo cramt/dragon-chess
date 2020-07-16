@@ -1,5 +1,5 @@
 [package]
-name = "dragon_chess_lib"
+name = "dragon_chess"
 version = "0.1.0"
 authors = ["Alexandra Østermark <alex.cramt@gmail.com>"]
 edition = "2018"

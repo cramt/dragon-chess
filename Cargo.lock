@@ -101,7 +101,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "dragon_chess_lib"
+name = "dragon_chess"
 version = "0.1.0"
 dependencies = [
  "console_error_panic_hook",
