@@ -33,9 +33,9 @@ impl BoardController {
             if self.piece_info(selected).unwrap().1[&position].is_some() {
                 let mut piece = self.board.board_piece(selected).unwrap();
                 piece.move_piece(position);
-                self.selected = None;
-                return;
             }
+            self.selected = None;
+            return;
         };
         self.selected = match self.board.grid[&position].as_ref() {
             Some(_) => Some(position),
