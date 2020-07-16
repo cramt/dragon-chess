@@ -48,7 +48,7 @@ pub trait Piece {
         None
     }
 
-    fn freeze_zone(&self) -> Option<Vec<MoveSet>> {
+    fn freeze_zone(&self) -> Option<Vec<Vector3>> {
         None
     }
 

@@ -50,11 +50,9 @@ impl Piece for Basilisk {
         "basilisk"
     }
 
-    fn freeze_zone(&self) -> Option<Vec<MoveSet>> {
+    fn freeze_zone(&self) -> Option<Vec<Vector3>> {
         Some(vec![
-            MoveSetBuilder::new()
-                .direction(Vector3::new(0, 0, 1))
-                .build()
+            Vector3::new(0, 0, 1)
         ])
     }
 }

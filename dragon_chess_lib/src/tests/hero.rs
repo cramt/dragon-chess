@@ -65,9 +65,4 @@ mod hero {
             Vector3::new(5, 5, 1) => Move
         })
     }
-
-    #[test]
-    fn test(){
-        println!("{}", false as i32)
-    }
 }

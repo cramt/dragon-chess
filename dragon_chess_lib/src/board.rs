@@ -218,17 +218,21 @@ impl Board {
         moves
     }
 
-    fn enemy_freeze_zone(&self, player: &Player) -> Grid<Option<MoveType>> {
+    fn enemy_freeze_zone(&self, player: &Player) -> Grid<Option<()>> {
         self.grid.flat().iter()
             .filter(|x| x.is_some())
             .map(|x| x.as_ref().unwrap())
             .filter(|x| x.get_player() != player)
             .filter(|x| x.freeze_zone().is_some())
             .map(|x| (x.freeze_zone().unwrap(), *x.get_position()))
-            .fold(Grid::new(), |acc, x| {
+            .fold(Grid::new(), |mut acc, (dirs, pos)| {
                 let mut grid = Grid::new();
-                self.unwrap_from_move_dirs(x.0, x.1, &mut grid);
-                acc.concat(grid)
+                for dir in dirs {
+                    let abs = dir + pos;
+                    grid[&abs] = Some(());
+                }
+                acc.concat(grid);
+                acc
             })
     }
 

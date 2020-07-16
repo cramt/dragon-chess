@@ -88,17 +88,16 @@ impl<T> Grid<T> where T: Default + PartialEq {
         self.swap(from, t);
     }
 
-    pub fn concat(mut self, other: Grid<T>) -> Grid<T> where T: Copy {
+    pub fn concat(&mut self, other: Grid<T>) where T: Copy {
         for x in 0..self.array.len() {
             for y in 0..self.array[x].len() {
                 for z in 0..self.array[x][y].len() {
-                    if other.array[z][y][x] != Default::default() {
-                        self.array[z][y][x] = other.array[z][y][x];
+                    if other.array[x][y][z] != Default::default() {
+                        self.array[x][y][z] = other.array[x][y][z];
                     }
                 }
             }
         }
-        self
     }
 }
 
