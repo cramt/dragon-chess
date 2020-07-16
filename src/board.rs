@@ -254,7 +254,7 @@ impl Board {
                         };
                         curr = curr + *dir;
                     }
-                }x
+                }
             } else {
                 let dir = cap_dir.directions.into_iter().map(|v| v + piece_position).collect::<Vec<Vector3>>();
                 for dir in dir {
