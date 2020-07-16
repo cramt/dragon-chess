@@ -87,18 +87,18 @@ impl Board {
             Box::new(Warrior::new(Vector3::new(10, 1, 1), white)),
             Box::new(Warrior::new(Vector3::new(11, 1, 1), white)),
             //warrior black
-            Box::new(Warrior::new(Vector3::new(0, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(1, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(2, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(3, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(4, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(5, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(6, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(7, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(8, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(9, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(10, 7, 1), black)),
-            Box::new(Warrior::new(Vector3::new(11, 7, 1), black)),
+            Box::new(Warrior::new(Vector3::new(0, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(1, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(2, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(3, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(4, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(5, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(6, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(7, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(8, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(9, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(10, 6, 1), black)),
+            Box::new(Warrior::new(Vector3::new(11, 6, 1), black)),
             //oliphant white
             Box::new(Oliphant::new(Vector3::new(0, 0, 1), white)),
             Box::new(Oliphant::new(Vector3::new(11, 0, 1), white)),
@@ -254,11 +254,11 @@ impl Board {
                         };
                         curr = curr + *dir;
                     }
-                }
+                }x
             } else {
                 let dir = cap_dir.directions.into_iter().map(|v| v + piece_position).collect::<Vec<Vector3>>();
                 for dir in dir {
-                    if self.grid.valid(&dir) == NonDefaultValue {
+                    if self.grid.valid(&dir) == NonDefaultValue && self.grid[&dir].as_ref().unwrap().get_player() != player {
                         moves[&dir] = Some(if cap_dir.remote { RemoteCapture } else { Capture });
                     }
                 }
