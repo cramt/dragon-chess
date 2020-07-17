@@ -46,7 +46,7 @@ impl Piece for Oliphant {
         "oliphant"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Oliphant::new(self.position, self.player))
     }
 }

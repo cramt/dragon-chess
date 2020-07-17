@@ -61,7 +61,7 @@ impl Piece for Dwarf {
         "dwarf"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Dwarf::new(self.position, self.player))
     }
 }

@@ -65,7 +65,7 @@ impl Piece for Paladin {
         "paladin"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Paladin::new(self.position, self.player))
     }
 }

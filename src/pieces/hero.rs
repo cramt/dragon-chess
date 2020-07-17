@@ -60,7 +60,7 @@ impl Piece for Hero {
         "hero"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Hero {position: self.position, player: self.player, old_middle_position: self.old_middle_position})
     }
 }

@@ -61,7 +61,7 @@ impl Piece for Dragon {
         'R'
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Dragon::new(self.position, self.player))
     }
 }

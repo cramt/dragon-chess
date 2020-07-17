@@ -42,7 +42,7 @@ impl Piece for Thief {
         "thief"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Thief::new(self.position, self.player))
     }
 }

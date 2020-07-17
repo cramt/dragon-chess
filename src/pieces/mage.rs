@@ -65,7 +65,7 @@ impl Piece for Mage {
         "mage"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Mage::new(self.position, self.player))
     }
 }

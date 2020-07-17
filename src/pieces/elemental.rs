@@ -57,7 +57,7 @@ impl Piece for Elemental {
         "elemental"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Elemental::new(self.position, self.player))
     }
 }

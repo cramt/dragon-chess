@@ -56,7 +56,7 @@ impl Piece for Basilisk {
         ])
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Basilisk::new(self.position, self.player))
     }
 }

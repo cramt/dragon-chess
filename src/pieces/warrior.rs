@@ -50,7 +50,7 @@ impl Piece for Warrior {
     fn promote(&self) -> Option<Box<dyn Piece>> {
         Some(Box::new(Hero::new(self.position, self.player)))
     }
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Warrior::new(self.position, self.player))
     }
 

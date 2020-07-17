@@ -67,7 +67,7 @@ impl Piece for King {
         true
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(King {position: self.position, player: self.player, old_middle_position: self.old_middle_position})
     }
 }

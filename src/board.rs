@@ -202,7 +202,7 @@ impl Board {
             .map(|p| self.possible_moves(p))
             .collect::<Vec<Grid<Option<MoveType>>>>();
         for m in enemy_possible_move {
-            if m[king.get_position()] == Capture {
+            if m[king.get_position()] == Some(Capture) {
                 return if self.possible_moves(king).flat().into_iter()
                     .filter(|p| p.is_some())
                     .collect::<Vec<&Option<MoveType>>>().len() == 0 {

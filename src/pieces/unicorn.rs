@@ -43,7 +43,7 @@ impl Piece for Unicorn {
         "unicorn"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Unicorn::new(self.position, self.player))
     }
 }

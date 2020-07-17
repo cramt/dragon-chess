@@ -49,7 +49,7 @@ impl Piece for Cleric {
         "cleric"
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Cleric::new(self.position, self.player))
     }
 }

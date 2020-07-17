@@ -62,7 +62,7 @@ impl Piece for Griffon {
         None
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Griffon::new(self.position, self.player))
     }
 }

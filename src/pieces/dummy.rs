@@ -42,7 +42,7 @@ impl Piece for Dummy {
         '_'
     }
 
-    fn clone(&self) -> Box<dyn Piece> {
+    fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Dummy::new(self.position, self.player))
     }
 }

@@ -57,7 +57,7 @@ pub trait Piece {
         false
     }
 
-    fn clone(&self) -> Box<dyn Piece>;
+    fn internal_clone(&self) -> Box<dyn Piece>;
 }
 
 impl std::fmt::Debug for dyn Piece {
@@ -71,5 +71,11 @@ impl std::fmt::Debug for dyn Piece {
 impl PartialEq for dyn Piece {
     fn eq(&self, other: &Self) -> bool {
         self.get_name() == other.get_name() && self.get_position() == other.get_position()
+    }
+}
+
+impl std::clone::Clone for Box<dyn Piece> {
+    fn clone(&self) -> Self {
+        self.internal_clone()
     }
 }
