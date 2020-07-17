@@ -41,6 +41,10 @@ impl Piece for Thief {
     fn get_name(&self) -> &str {
         "thief"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Thief::new(self.position, self.player))
+    }
 }
 
 impl Thief {

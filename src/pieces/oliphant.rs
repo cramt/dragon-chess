@@ -45,6 +45,10 @@ impl Piece for Oliphant {
     fn get_name(&self) -> &str {
         "oliphant"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Oliphant::new(self.position, self.player))
+    }
 }
 
 impl Oliphant {

@@ -41,6 +41,10 @@ impl Piece for Dummy {
     fn get_char(&self) -> char {
         '_'
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Dummy::new(self.position, self.player))
+    }
 }
 
 impl Dummy {

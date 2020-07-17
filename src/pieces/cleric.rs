@@ -46,7 +46,11 @@ impl Piece for Cleric {
     }
 
     fn get_name(&self) -> &str {
-        "Cleric"
+        "cleric"
+    }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Cleric::new(self.position, self.player))
     }
 }
 

@@ -60,6 +60,10 @@ impl Piece for Dragon {
     fn get_char(&self) -> char {
         'R'
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Dragon::new(self.position, self.player))
+    }
 }
 
 impl Dragon {

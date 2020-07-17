@@ -56,6 +56,8 @@ pub trait Piece {
     fn is_king(&self) -> bool {
         false
     }
+
+    fn clone(&self) -> Box<dyn Piece>;
 }
 
 impl std::fmt::Debug for dyn Piece {

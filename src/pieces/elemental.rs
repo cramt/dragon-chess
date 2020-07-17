@@ -56,6 +56,10 @@ impl Piece for Elemental {
     fn get_name(&self) -> &str {
         "elemental"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Elemental::new(self.position, self.player))
+    }
 }
 
 impl Elemental {

@@ -64,6 +64,10 @@ impl Piece for Paladin {
     fn get_name(&self) -> &str {
         "paladin"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Paladin::new(self.position, self.player))
+    }
 }
 
 impl Paladin {

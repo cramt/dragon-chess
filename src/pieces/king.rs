@@ -66,6 +66,10 @@ impl Piece for King {
     fn is_king(&self) -> bool {
         true
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(King {position: self.position, player: self.player, old_middle_position: self.old_middle_position})
+    }
 }
 
 impl King {

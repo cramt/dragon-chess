@@ -65,6 +65,10 @@ impl Piece for Sylph {
     fn get_name(&self) -> &str {
         "sylph"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Sylph::new(self.position, self.player))
+    }
 }
 
 impl Sylph {

@@ -64,6 +64,10 @@ impl Piece for Mage {
     fn get_name(&self) -> &str {
         "mage"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Mage::new(self.position, self.player))
+    }
 }
 
 impl Mage {

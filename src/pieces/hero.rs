@@ -59,6 +59,10 @@ impl Piece for Hero {
     fn get_name(&self) -> &str {
         "hero"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Hero {position: self.position, player: self.player, old_middle_position: self.old_middle_position})
+    }
 }
 
 impl Hero {

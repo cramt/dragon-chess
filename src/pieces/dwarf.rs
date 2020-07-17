@@ -60,6 +60,10 @@ impl Piece for Dwarf {
     fn get_name(&self) -> &str {
         "dwarf"
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Dwarf::new(self.position, self.player))
+    }
 }
 
 impl Dwarf {

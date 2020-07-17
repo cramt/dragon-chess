@@ -61,6 +61,10 @@ impl Piece for Griffon {
     fn promote(&self) -> Option<Box<dyn Piece>> {
         None
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Griffon::new(self.position, self.player))
+    }
 }
 
 impl Griffon {

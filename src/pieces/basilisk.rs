@@ -55,6 +55,10 @@ impl Piece for Basilisk {
             Vector3::new(0, 0, 1)
         ])
     }
+
+    fn clone(&self) -> Box<dyn Piece> {
+        Box::new(Basilisk::new(self.position, self.player))
+    }
 }
 
 impl Basilisk {
