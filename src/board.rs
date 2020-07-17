@@ -305,7 +305,6 @@ impl Board {
                 for d in &dir.directions {
                     let mut curr = *piece.get_position() + *d;
                     loop {
-                        v.push(curr);
                         match self.grid.valid(&curr) {
                             OutOfBounds => break,
                             DefaultValue => {}
@@ -313,6 +312,7 @@ impl Board {
                                 break;
                             }
                         };
+                        v.push(curr);
                         curr = curr + *d;
                     }
                 }
