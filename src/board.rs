@@ -190,8 +190,8 @@ impl Board {
             return Grid::new();
         }
         let mut moves = Grid::new();
-        let move_dirs = piece.move_directions();
-        let cap_dirs = piece.capture_directions();
+        let move_dirs = self.fix_directions(piece.move_directions(), piece.get_player());
+        let cap_dirs = self.fix_directions(piece.capture_directions(), piece.get_player());
         self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
         self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), piece.get_player(), &mut moves);
         if piece.is_king() && first {
@@ -216,6 +216,21 @@ impl Board {
             }
         }
         moves
+    }
+
+    fn fix_directions(&self, move_set: Vec<MoveSet>, player: &Player) -> Vec<MoveSet> {
+        if self.black == *player {
+            move_set.into_iter().map(|mut x|{
+                x.directions = x.directions.into_iter().map(|mut v| {
+                    v.y *= -1;
+                    v
+                }).collect();
+                x
+            }).collect()
+        }
+        else {
+            move_set
+        }
     }
 
     fn enemy_freeze_zone(&self, player: &Player) -> Grid<Option<()>> {
