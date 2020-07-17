@@ -22,9 +22,7 @@ use crate::pieces::paladin::Paladin;
 use crate::pieces::dwarf::Dwarf;
 use crate::pieces::basilisk::Basilisk;
 use crate::pieces::elemental::Elemental;
-use wasm_bindgen::__rt::std::collections::HashMap;
 use crate::pieces::dummy::Dummy;
-use wasm_bindgen::__rt::core::any::TypeId;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
@@ -305,21 +303,21 @@ impl Board {
                 for d in &dir.directions {
                     let mut curr = *piece.get_position() + *d;
                     loop {
-                        match self.grid.valid(&curr) {
-                            OutOfBounds => break,
-                            DefaultValue => {}
-                            NonDefaultValue => {
-                                break;
-                            }
-                        };
-                        v.push(curr);
-                        curr = curr + *d;
+                        if self.grid.valid(&curr) == DefaultValue {
+                            v.push(curr);
+                            curr = curr + *d;
+                        }
+                        else {
+                            break;
+                        }
                     }
                 }
-            }
-            else {
+            } else {
                 for d in &dir.directions {
-                    v.push(*piece.get_position() + *d);
+                    let d = *piece.get_position() + *d;
+                    if self.grid.valid(&d) == DefaultValue {
+                        v.push(d);
+                    }
                 }
             }
         }
