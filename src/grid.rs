@@ -48,7 +48,7 @@ impl<T> Grid<T> where T: Default + PartialEq {
         v
     }
 
-    pub fn flat_with_index_owned(self) -> Vec<(Vector3, T)> where T: Copy {
+    pub fn flat_with_index_owned(&self) -> Vec<(Vector3, T)> where T: Copy {
         let mut v = vec![];
         for x in 0..self.array.len() {
             for y in 0..self.array[x].len() {

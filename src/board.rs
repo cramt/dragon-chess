@@ -23,6 +23,8 @@ use crate::pieces::dwarf::Dwarf;
 use crate::pieces::basilisk::Basilisk;
 use crate::pieces::elemental::Elemental;
 use wasm_bindgen::__rt::std::collections::HashMap;
+use crate::pieces::dummy::Dummy;
+use wasm_bindgen::__rt::core::any::TypeId;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
@@ -181,10 +183,6 @@ impl Board {
     }
 
     pub fn possible_moves(&self, piece: &Box<dyn Piece>) -> Grid<Option<MoveType>> {
-        self.possible_moves_recursive(piece, true)
-    }
-
-    fn possible_moves_recursive(&self, piece: &Box<dyn Piece>, first: bool) -> Grid<Option<MoveType>> {
         let freeze_zone = self.enemy_freeze_zone(piece.get_player());
         if freeze_zone[piece.get_position()].is_some() {
             return Grid::new();
@@ -194,23 +192,16 @@ impl Board {
         let cap_dirs = self.fix_directions(piece.capture_directions(), piece.get_player());
         self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
         self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), piece.get_player(), &mut moves);
-        if piece.is_king() && first {
+        if piece.is_king() {
             let taking_candidate = self.grid.flat().into_iter()
                 .filter(|x| x.is_some())
                 .map(|x| x.as_ref().unwrap())
                 .filter(|x| x.get_player() != piece.get_player())
-                .map(|x| self.possible_moves_recursive(piece, false))
-                .map(|x| x.flat_with_index_owned())
+                .map(|x| self.possible_capture(x))
                 .fold(vec![], |mut acc, mut x| {
                     acc.append(&mut x);
                     acc
-                }).into_iter()
-                .filter(|(x, y)| y.is_some())
-                .map(|(x, y)| (x, y.unwrap()))
-                .filter(|(x, y)| *y == Capture || *y == RemoteCapture)
-                .collect::<HashMap<Vector3, MoveType>>().into_iter()
-                .map(|(x, y)| x)
-                .collect::<Vec<Vector3>>();
+                });
             for candidate in taking_candidate {
                 moves[&candidate] = None
             }
@@ -220,15 +211,14 @@ impl Board {
 
     fn fix_directions(&self, move_set: Vec<MoveSet>, player: &Player) -> Vec<MoveSet> {
         if self.black == *player {
-            move_set.into_iter().map(|mut x|{
+            move_set.into_iter().map(|mut x| {
                 x.directions = x.directions.into_iter().map(|mut v| {
                     v.y *= -1;
                     v
                 }).collect();
                 x
             }).collect()
-        }
-        else {
+        } else {
             move_set
         }
     }
@@ -305,6 +295,35 @@ impl Board {
                 }
             }
         }
+    }
+
+    fn possible_capture(&self, piece: &Box<dyn Piece>) -> Vec<Vector3> {
+        let dirs = self.fix_directions(piece.capture_directions(), piece.get_player());
+        let mut v = vec![];
+        for dir in dirs {
+            if dir.repeated {
+                for d in &dir.directions {
+                    let mut curr = *piece.get_position() + *d;
+                    loop {
+                        v.push(curr);
+                        match self.grid.valid(&curr) {
+                            OutOfBounds => break,
+                            DefaultValue => {}
+                            NonDefaultValue => {
+                                break;
+                            }
+                        };
+                        curr = curr + *d;
+                    }
+                }
+            }
+            else {
+                for d in &dir.directions {
+                    v.push(*piece.get_position() + *d);
+                }
+            }
+        }
+        v
     }
 
     pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<(), &str> {
