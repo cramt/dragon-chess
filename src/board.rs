@@ -23,12 +23,20 @@ use crate::pieces::dwarf::Dwarf;
 use crate::pieces::basilisk::Basilisk;
 use crate::pieces::elemental::Elemental;
 use crate::pieces::dummy::Dummy;
+use crate::board::CheckStatus::{CheckMate, Free, Check};
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
     Capture,
     RemoteCapture,
     Move,
+}
+
+#[derive(PartialEq, Debug, Clone, Copy)]
+pub enum CheckStatus {
+    Check,
+    CheckMate,
+    Free,
 }
 
 pub struct Board {
@@ -180,6 +188,33 @@ impl Board {
         BoardPiece::new(pos, self)
     }
 
+    pub fn get_check_status(&self, player: Player) -> CheckStatus {
+        let king = self.grid.flat().into_iter()
+            .filter(|p| p.is_some())
+            .map(|p| p.as_ref().unwrap())
+            .find(|p| p.is_king() && *p.get_player() == player).expect("that player doesnt have a king");
+        let enemies = self.grid.flat().into_iter()
+            .filter(|p| p.is_some())
+            .map(|p| p.as_ref().unwrap())
+            .filter(|p| *p.get_player() != player)
+            .collect::<Vec<&Box<dyn Piece>>>();
+        let enemy_possible_move = enemies.into_iter()
+            .map(|p| self.possible_moves(p))
+            .collect::<Vec<Grid<Option<MoveType>>>>();
+        for m in enemy_possible_move {
+            if m[king.get_position()] == Capture {
+                return if self.possible_moves(king).flat().into_iter()
+                    .filter(|p| p.is_some())
+                    .collect::<Vec<&Option<MoveType>>>().len() == 0 {
+                    CheckMate
+                } else {
+                    Check
+                }
+            }
+        }
+        Free
+    }
+
     pub fn possible_moves(&self, piece: &Box<dyn Piece>) -> Grid<Option<MoveType>> {
         let freeze_zone = self.enemy_freeze_zone(piece.get_player());
         if freeze_zone[piece.get_position()].is_some() {
@@ -306,8 +341,7 @@ impl Board {
                         if self.grid.valid(&curr) == DefaultValue {
                             v.push(curr);
                             curr = curr + *d;
-                        }
-                        else {
+                        } else {
                             break;
                         }
                     }
