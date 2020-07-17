@@ -13,7 +13,7 @@ mod hero {
 
 
     const PLAYER1: Player = Player::new(1);
-    const PLAYER2: Player = Player::new(1);
+    const PLAYER2: Player = Player::new(2);
 
     #[wasm_bindgen_test::wasm_bindgen_test]
     #[test]

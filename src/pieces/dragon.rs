@@ -46,8 +46,8 @@ impl Piece for Dragon {
             MoveSetBuilder::new()
                 .mirrored()
                 .remote()
-                .direction(Vector3::new(0, 0, 1))
-                .direction(Vector3::new(1, 1, -0))
+                .direction(Vector3::new(0, 0, -1))
+                .direction(Vector3::new(1, 1, -1))
                 .build()
         );
         move_dir
