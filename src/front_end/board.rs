@@ -153,7 +153,7 @@ impl Component for Board {
         };
         html! {
             <div>
-
+                {check_string}
                 {self.render_board()}
             </div>
         }

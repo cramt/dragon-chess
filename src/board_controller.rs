@@ -6,6 +6,7 @@ use crate::board_controller::PieceColor::{White, Black};
 use std::collections::HashMap;
 use crate::player::Player;
 use core::fmt;
+use crate::board::CheckStatus::Free;
 
 
 #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
@@ -35,6 +36,7 @@ pub struct BoardController {
     board: Board,
     selected: Option<Vector3>,
     turn: PieceColor,
+    check_mate: CheckStatus
 }
 
 impl BoardController {
@@ -43,13 +45,14 @@ impl BoardController {
             board: Board::new_default(),
             selected: None,
             turn: White,
+            check_mate: Free,
         }
     }
     pub fn reset(&mut self) {
         self.board = Board::new_default();
     }
     pub fn check_mate(&self) -> (PieceColor, CheckStatus){
-        (self.turn, self.board.get_check_status(self.get_current_player()))
+        (self.turn, self.check_mate)
     }
     pub fn piece_info(&self, position: Vector3) -> Option<(&Box<dyn Piece>, Grid<Option<MoveType>>)> {
         match self.board.grid[&position].as_ref() {
@@ -74,6 +77,7 @@ impl BoardController {
                 piece.move_piece(position);
                 self.turn = self.turn.flip();
             }
+            self.check_mate = self.board.get_check_status(self.get_current_player());
             self.selected = None;
             return;
         };
