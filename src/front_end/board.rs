@@ -145,9 +145,16 @@ impl Component for Board {
     }
 
     fn view(&self) -> Html {
+        let (colour, check) = self.board_controller.check_mate();
+        let check_string = match check {
+            Free => String::new(),
+            Check => format!("{} has been put in check", colour.to_string().to_lowercase()),
+            CheckMate => format!("{} has been put in checkmate, {} wins", colour.to_string().to_lowercase(), colour.flip().to_string().to_lowercase()),
+        };
         html! {
             <div>
-            {self.render_board()}
+
+                {self.render_board()}
             </div>
         }
     }
