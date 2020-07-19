@@ -41,14 +41,15 @@ pub enum CheckStatus {
 }
 
 pub struct Board {
-    white: Player,
-    black: Player,
+    pub white: Player,
+    pub black: Player,
     pub grid: Grid<Option<Box<dyn Piece>>>,
     dead_pieces: Vec<Box<dyn Piece>>,
     clone: bool,
 }
 
 impl Board {
+
     pub fn new_specified(pieces: Vec<Box<dyn Piece>>, white: Player, black: Player) -> Board {
         Board {
             white,

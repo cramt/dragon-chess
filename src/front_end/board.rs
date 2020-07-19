@@ -6,6 +6,7 @@ use crate::pieces::Piece;
 use crate::board::MoveType;
 use crate::board_controller::BoardController;
 use crate::pieces::vector3::Vector3;
+use crate::board_controller::PieceColor::White;
 
 pub struct Board {
     link: ComponentLink<Self>,
@@ -21,6 +22,8 @@ pub struct Board {
     possible_capture: Style,
     possible_remote_capture: Style,
     empty_style: Style,
+    white_piece: Style,
+    black_piece: Style,
 }
 
 pub enum Msg {
@@ -118,6 +121,12 @@ impl Component for Board {
             empty_style: Style::create("empty", r#"
                 display: block;
             "#).unwrap(),
+            black_piece: Style::create("black-piece", r#"
+                color: black;
+            "#).unwrap(),
+            white_piece: Style::create("white-piece", r#"
+                color: white;
+            "#).unwrap(),
         }
     }
 
@@ -167,9 +176,11 @@ impl Board {
             for x in 0..12 {
                 let style = style[(((y % 2 == 0) as usize + x) % 2 == 0) as usize].clone();
                 let vector = Vector3::new(x as i32, y, z);
-                let str = match info.get(&vector) {
-                    Some(piece) => piece.get_char().to_string(),
-                    None => String::new(),
+                let (str, piece_style) = match info.get(&vector) {
+                    Some(piece) => (piece.get_char().to_string(),
+                                    if self.board_controller.color_of_piece(piece) == White
+                                    { self.white_piece.clone() } else { self.black_piece.clone() }),
+                    None => (String::new(), self.empty_style.clone()),
                 };
                 let move_style = match possible_moves.get(&vector) {
                     Some(move_type) => match *move_type {
@@ -181,7 +192,7 @@ impl Board {
                 };
                 vec.push(html! {<div class=style onclick=self.link.callback(move |_|Msg::Click(vector))>
                         <div class=move_style>
-                            {str}
+                            <div class=piece_style>{str}</div>
                         </div>
                     </div>}
                 )

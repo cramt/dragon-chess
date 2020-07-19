@@ -3,10 +3,17 @@ use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
 use crate::grid::Grid;
 use wasm_bindgen::__rt::std::collections::HashMap;
+use crate::board_controller::PieceColor::{White, Black};
 
 pub struct BoardController {
     board: Board,
     selected: Option<Vector3>,
+}
+
+#[derive(Copy, Clone, PartialOrd, PartialEq)]
+pub enum PieceColor{
+    White,
+    Black,
 }
 
 impl BoardController {
@@ -53,6 +60,17 @@ impl BoardController {
                     .map(|(v, m)| (v, m.unwrap()))
                     .collect::<HashMap<Vector3, MoveType>>()
             }
+        }
+    }
+    pub fn color_of_piece(&self, piece: &Box<dyn Piece>) -> PieceColor {
+        if self.board.white == *piece.get_player() {
+            White
+        }
+        else if self.board.black == *piece.get_player() {
+            Black
+        }
+        else {
+            panic!("piece is neither black or white")
         }
     }
 }
