@@ -202,7 +202,8 @@ impl Board {
         BoardPiece::new(pos, self)
     }
 
-    pub fn get_check_status(&self, player: Player) -> CheckStatus {
+    pub fn get_check_status(&mut self, player: Player) -> CheckStatus {
+        self.clone = true;
         let king = self.grid.flat().into_iter()
             .filter(|p| p.is_some())
             .map(|p| p.as_ref().unwrap())
@@ -215,6 +216,7 @@ impl Board {
         let enemy_possible_move = enemies.into_iter()
             .map(|p| self.possible_moves(p))
             .collect::<Vec<Grid<Option<MoveType>>>>();
+        self.clone = false;
         for m in enemy_possible_move {
             if m[king.get_position()] == Some(Capture) {
                 return if self.possible_moves(king).flat().into_iter()

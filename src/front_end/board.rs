@@ -153,7 +153,8 @@ impl Component for Board {
         };
         html! {
             <div>
-                {check_string}
+                <p>{format!("{}'s turn", colour.to_string().to_lowercase())}</p>
+                <p>{check_string}</p>
                 {self.render_board()}
             </div>
         }
