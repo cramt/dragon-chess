@@ -10,7 +10,7 @@ pub enum IndexValid {
     NonDefaultValue,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Grid<T> where T: Default + PartialEq {
     pub(crate) array: [[[T; 12]; 8]; 3]
 }

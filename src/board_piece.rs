@@ -2,6 +2,7 @@ use crate::pieces::Piece;
 use crate::board::{Board, MoveType};
 use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
+use crate::player::Player;
 
 pub struct BoardPiece<'a> {
     piece: Vector3,
@@ -21,7 +22,7 @@ impl<'a> BoardPiece<'a> {
         }
     }
 
-    fn get_piece(&self) -> &Box<dyn Piece> {
+    pub fn get_piece(&self) -> &Box<dyn Piece> {
         self.board.grid[&self.piece].as_ref().unwrap()
     }
 

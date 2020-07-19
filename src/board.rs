@@ -24,6 +24,7 @@ use crate::pieces::basilisk::Basilisk;
 use crate::pieces::elemental::Elemental;
 use crate::pieces::dummy::Dummy;
 use crate::board::CheckStatus::{CheckMate, Free, Check};
+use rayon::prelude::IntoParallelIterator;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
@@ -44,6 +45,7 @@ pub struct Board {
     black: Player,
     pub grid: Grid<Option<Box<dyn Piece>>>,
     dead_pieces: Vec<Box<dyn Piece>>,
+    clone: bool,
 }
 
 impl Board {
@@ -53,6 +55,17 @@ impl Board {
             black,
             grid: Board::build_state(pieces),
             dead_pieces: vec![],
+            clone: false,
+        }
+    }
+
+    fn create_clone(&self) -> Board {
+        Board {
+            white: self.white,
+            black: self.black,
+            grid: self.grid.clone(),
+            dead_pieces: self.dead_pieces.clone(),
+            clone: true,
         }
     }
 
@@ -209,7 +222,7 @@ impl Board {
                     CheckMate
                 } else {
                     Check
-                }
+                };
             }
         }
         Free
@@ -225,19 +238,42 @@ impl Board {
         let cap_dirs = self.fix_directions(piece.capture_directions(), piece.get_player());
         self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
         self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), piece.get_player(), &mut moves);
-        if piece.is_king() {
-            let taking_candidate = self.grid.flat().into_iter()
-                .filter(|x| x.is_some())
-                .map(|x| x.as_ref().unwrap())
-                .filter(|x| x.get_player() != piece.get_player())
-                .map(|x| self.possible_capture(x))
-                .fold(vec![], |mut acc, mut x| {
-                    acc.append(&mut x);
-                    acc
-                });
-            for candidate in taking_candidate {
-                moves[&candidate] = None
-            }
+        let king = self.grid.flat_with_index().into_iter()
+            .filter(|(v, p)| p.is_some())
+            .map(|(v, p)| p.as_ref().unwrap())
+            .filter(|p| p.get_player() == piece.get_player())
+            .find(|p| p.is_king());
+        if !self.clone && king.is_some() {
+            moves = Grid::from_map(moves.flat_with_index_owned().into_iter()
+                .filter(|(v, p)| p.is_some())
+                .map(|(v, p)| (v, p.unwrap()))
+                .filter(|(v, p)| {
+                    let mut king_pos = king.unwrap().get_position();
+                    let mut clone_board = Board::create_clone(self);
+
+                    {
+                        let mut board_piece = clone_board.board_piece(*piece.get_position()).unwrap();
+                        board_piece.move_piece(*v);
+                        if board_piece.get_piece().is_king() {
+                            king_pos = v;
+                        }
+                    }
+                    let enemy_pieces = clone_board.grid.flat_with_index().into_iter()
+                        .filter(|(v, p)| p.is_some())
+                        .map(|(v, p)| (v, p.as_ref().unwrap()))
+                        .filter(|(v, p)| p.get_player() != piece.get_player())
+                        .collect::<Vec<(Vector3, &Box<dyn Piece>)>>();
+                    let move_pattern = enemy_pieces.iter()
+                        .map(|(v, p)| clone_board.possible_moves(p))
+                        .map(|g| g.flat_with_index_owned())
+                        .flatten()
+                        .filter(|(v,p)| p.is_some())
+                        .map(|(v,p)| v)
+                        .collect::<Vec<Vector3>>();
+                    !move_pattern.contains(king_pos)
+                })
+                .map(|(v, p)| (v, Some(p)))
+                .collect());
         }
         moves
     }
@@ -328,34 +364,6 @@ impl Board {
                 }
             }
         }
-    }
-
-    fn possible_capture(&self, piece: &Box<dyn Piece>) -> Vec<Vector3> {
-        let dirs = self.fix_directions(piece.capture_directions(), piece.get_player());
-        let mut v = vec![];
-        for dir in dirs {
-            if dir.repeated {
-                for d in &dir.directions {
-                    let mut curr = *piece.get_position() + *d;
-                    loop {
-                        if self.grid.valid(&curr) == DefaultValue {
-                            v.push(curr);
-                            curr = curr + *d;
-                        } else {
-                            break;
-                        }
-                    }
-                }
-            } else {
-                for d in &dir.directions {
-                    let d = *piece.get_position() + *d;
-                    if self.grid.valid(&d) == DefaultValue {
-                        v.push(d);
-                    }
-                }
-            }
-        }
-        v
     }
 
     pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<(), &str> {
