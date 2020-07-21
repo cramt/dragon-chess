@@ -217,7 +217,7 @@ impl Board {
             .collect::<Vec<Grid<Option<MoveType>>>>();
         for m in enemy_possible_move {
             if m[king.get_position()] == Some(Capture) {
-                return if self.possible_moves_internal(king, true).flat().into_iter()
+                return if self.possible_moves_internal(king, false).flat().into_iter()
                     .filter(|p| p.is_some())
                     .collect::<Vec<&Option<MoveType>>>().len() == 0 {
                     CheckMate
