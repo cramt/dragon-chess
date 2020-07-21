@@ -99,7 +99,7 @@ impl BoardController {
                 None => HashMap::new(),
                 Some(piece) => piece.1.flat_with_index_owned()
                     .into_iter()
-                    .filter(|(v, m)| m.is_some())
+                    .filter(|(_v, m)| m.is_some())
                     .map(|(v, m)| (v, m.unwrap()))
                     .collect::<HashMap<Vector3, MoveType>>()
             }

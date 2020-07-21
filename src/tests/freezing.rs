@@ -5,10 +5,10 @@ mod freezing {
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
 
-    use crate::board::MoveType::{Move};
+    
     use crate::tests::assert_grid::assert_grid;
 
-    use maplit::*;
+    
 
     use crate::pieces::oliphant::Oliphant;
     use crate::pieces::basilisk::Basilisk;

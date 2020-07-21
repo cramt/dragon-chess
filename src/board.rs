@@ -22,9 +22,9 @@ use crate::pieces::paladin::Paladin;
 use crate::pieces::dwarf::Dwarf;
 use crate::pieces::basilisk::Basilisk;
 use crate::pieces::elemental::Elemental;
-use crate::pieces::dummy::Dummy;
+
 use crate::board::CheckStatus::{CheckMate, Free, Check};
-use rayon::prelude::IntoParallelIterator;
+
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
@@ -202,8 +202,7 @@ impl Board {
         BoardPiece::new(pos, self)
     }
 
-    pub fn get_check_status(&mut self, player: Player) -> CheckStatus {
-        self.clone = true;
+    pub fn get_check_status(&self, player: Player) -> CheckStatus {
         let king = self.grid.flat().into_iter()
             .filter(|p| p.is_some())
             .map(|p| p.as_ref().unwrap())
@@ -214,12 +213,11 @@ impl Board {
             .filter(|p| *p.get_player() != player)
             .collect::<Vec<&Box<dyn Piece>>>();
         let enemy_possible_move = enemies.into_iter()
-            .map(|p| self.possible_moves(p))
+            .map(|p| self.possible_moves_internal(p, true))
             .collect::<Vec<Grid<Option<MoveType>>>>();
-        self.clone = false;
         for m in enemy_possible_move {
             if m[king.get_position()] == Some(Capture) {
-                return if self.possible_moves(king).flat().into_iter()
+                return if self.possible_moves_internal(king, true).flat().into_iter()
                     .filter(|p| p.is_some())
                     .collect::<Vec<&Option<MoveType>>>().len() == 0 {
                     CheckMate
@@ -232,6 +230,10 @@ impl Board {
     }
 
     pub fn possible_moves(&self, piece: &Box<dyn Piece>) -> Grid<Option<MoveType>> {
+        self.possible_moves_internal(piece, self.clone)
+    }
+
+    fn possible_moves_internal(&self, piece: &Box<dyn Piece>, clone: bool) -> Grid<Option<MoveType>> {
         let freeze_zone = self.enemy_freeze_zone(piece.get_player());
         if freeze_zone[piece.get_position()].is_some() {
             return Grid::new();
@@ -242,18 +244,17 @@ impl Board {
         self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
         self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), piece.get_player(), &mut moves);
         let king = self.grid.flat_with_index().into_iter()
-            .filter(|(v, p)| p.is_some())
-            .map(|(v, p)| p.as_ref().unwrap())
+            .filter(|(_v, p)| p.is_some())
+            .map(|(_v, p)| p.as_ref().unwrap())
             .filter(|p| p.get_player() == piece.get_player())
             .find(|p| p.is_king());
-        if !self.clone && king.is_some() {
+        if !clone && king.is_some() {
             moves = Grid::from_map(moves.flat_with_index_owned().into_iter()
-                .filter(|(v, p)| p.is_some())
+                .filter(|(_v, p)| p.is_some())
                 .map(|(v, p)| (v, p.unwrap()))
-                .filter(|(v, p)| {
+                .filter(|(v, _p)| {
                     let mut king_pos = king.unwrap().get_position();
                     let mut clone_board = Board::create_clone(self);
-
                     {
                         let mut board_piece = clone_board.board_piece(*piece.get_position()).unwrap();
                         board_piece.move_piece(*v);
@@ -262,16 +263,16 @@ impl Board {
                         }
                     }
                     let enemy_pieces = clone_board.grid.flat_with_index().into_iter()
-                        .filter(|(v, p)| p.is_some())
+                        .filter(|(_v, p)| p.is_some())
                         .map(|(v, p)| (v, p.as_ref().unwrap()))
-                        .filter(|(v, p)| p.get_player() != piece.get_player())
+                        .filter(|(_v, p)| p.get_player() != piece.get_player())
                         .collect::<Vec<(Vector3, &Box<dyn Piece>)>>();
                     let move_pattern = enemy_pieces.iter()
-                        .map(|(v, p)| clone_board.possible_moves(p))
+                        .map(|(_v, p)| clone_board.possible_moves(p))
                         .map(|g| g.flat_with_index_owned())
                         .flatten()
-                        .filter(|(v,p)| p.is_some())
-                        .map(|(v,p)| v)
+                        .filter(|(_v,p)| p.is_some())
+                        .map(|(v,_p)| v)
                         .collect::<Vec<Vector3>>();
                     !move_pattern.contains(king_pos)
                 })

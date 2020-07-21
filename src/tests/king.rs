@@ -8,7 +8,7 @@ mod hero {
 
     use maplit::*;
 
-    use crate::pieces::hero::Hero;
+    
     use crate::pieces::king::King;
     use crate::pieces::oliphant::Oliphant;
 

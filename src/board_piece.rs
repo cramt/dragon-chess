@@ -2,7 +2,7 @@ use crate::pieces::Piece;
 use crate::board::{Board, MoveType};
 use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
-use crate::player::Player;
+
 
 pub struct BoardPiece<'a> {
     piece: Vector3,

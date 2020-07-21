@@ -7,12 +7,12 @@ extern crate wasm_bindgen;
 extern crate console_error_panic_hook;
 
 use wasm_bindgen::prelude::*;
-use crate::pieces::vector3::Vector3;
-use crate::board_controller::BoardController;
-use std::sync::Mutex;
+
+
+
 use yew::{App, Component, ComponentLink, Html};
 use crate::front_end::board::Board;
-use crate::front_end::raw_html::RawHTML;
+
 use yew::prelude::*;
 
 mod grid;
@@ -34,11 +34,11 @@ impl Component for Main {
     type Message = ();
     type Properties = ();
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Main {}
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _msg: Self::Message) -> bool {
         false
     }
 

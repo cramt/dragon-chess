@@ -1,4 +1,4 @@
-use yew::web_sys::{console, Node};
+
 use yew::virtual_dom::VNode;
 use yew::{Component, ComponentLink, Html, ShouldRender, web_sys, Properties};
 
