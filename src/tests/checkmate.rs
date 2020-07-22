@@ -49,7 +49,6 @@ mod checkmate {
             Box::new(Oliphant::new(Vector3::new(6, 1, 1), PLAYER2)),
             Box::new(Dragon::new(Vector3::new(4,4,2), PLAYER2)),
             Box::new(Dwarf::new(Vector3::new(6,6,0), PLAYER2)),
-            Box::new(Dwarf::new(Vector3::new(4,4,0), PLAYER2)),
         ], PLAYER1, PLAYER2);
         assert_eq!(board.get_check_status(PLAYER1), CheckMate);
     }

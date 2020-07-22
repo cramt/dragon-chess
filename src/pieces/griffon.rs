@@ -54,14 +54,6 @@ impl Piece for Griffon {
         "griffon"
     }
 
-    fn get_char(&self) -> char {
-        'G'
-    }
-
-    fn promote(&self) -> Option<Box<dyn Piece>> {
-        None
-    }
-
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Griffon::new(self.position, self.player))
     }
