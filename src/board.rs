@@ -369,12 +369,13 @@ impl Board {
         }
     }
 
-    pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<(), &str> {
+    pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<Vector3, &str> {
         match &possible_moves[&to] {
             Some(move_type) => {
                 let move_type = *move_type;
                 if move_type != Move {
                     self.kill_piece(&to);
+                    return Ok(from);
                 }
                 if move_type != RemoteCapture {
                     self.change_position(&from, &to);
@@ -390,7 +391,7 @@ impl Board {
                 self.grid[&to] = Some(promote);
             }
         }
-        Ok(())
+        Ok(to)
     }
 
     fn change_position(&mut self, from_position: &Vector3, to_position: &Vector3) {

@@ -30,15 +30,15 @@ impl<'a> BoardPiece<'a> {
         self.board.possible_moves(self.get_piece())
     }
 
-    pub fn move_piece(&mut self, position: Vector3) -> Result<(), &str> {
+    pub fn move_piece(&mut self, position: Vector3) -> Result<Vector3, &str> {
         let possible_moves = self.possible_moves();
         self.move_piece_with_moves(position, possible_moves)
     }
 
-    pub fn move_piece_with_moves(&mut self, position: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<(), &str> {
+    pub fn move_piece_with_moves(&mut self, position: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<Vector3, &str> {
         let result = self.board.move_piece(self.piece, position, possible_moves);
-        if result.is_ok() {
-            self.piece = position;
+        if let Ok(pos) = result {
+            self.piece = pos;
         }
         result
     }
