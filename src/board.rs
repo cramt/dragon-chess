@@ -49,7 +49,6 @@ pub struct Board {
 }
 
 impl Board {
-
     pub fn new_specified(pieces: Vec<Box<dyn Piece>>, white: Player, black: Player) -> Board {
         Board {
             white,
@@ -271,8 +270,8 @@ impl Board {
                         .map(|(_v, p)| clone_board.possible_moves(p))
                         .map(|g| g.flat_with_index_owned())
                         .flatten()
-                        .filter(|(_v,p)| p.is_some())
-                        .map(|(v,_p)| v)
+                        .filter(|(_v, p)| p.is_some())
+                        .map(|(v, _p)| v)
                         .collect::<Vec<Vector3>>();
                     !move_pattern.contains(king_pos)
                 })
@@ -385,6 +384,12 @@ impl Board {
                 return Err("not a possible move");
             }
         };
+        let piece = self.grid[&to].as_ref().unwrap();
+        if to.y == if *piece.get_player() == self.white { 7 } else { 0 } {
+            if let Some(promote) = piece.promote() {
+                self.grid[&to] = Some(promote);
+            }
+        }
         Ok(())
     }
 
