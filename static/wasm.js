@@ -761,12 +761,12 @@ async function init(input) {
         getInt32Memory0()[arg0 / 4 + 1] = len0;
         getInt32Memory0()[arg0 / 4 + 0] = ptr0;
     };
-    imports.wbg.__wbindgen_closure_wrapper581 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 280, __wbg_adapter_22);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbindgen_closure_wrapper1990 = function(arg0, arg1, arg2) {
         var ret = makeMutClosure(arg0, arg1, 388, __wbg_adapter_25);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_closure_wrapper581 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 280, __wbg_adapter_22);
         return addHeapObject(ret);
     };
 
