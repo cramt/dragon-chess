@@ -289,23 +289,24 @@ impl Board {
         }
     }
 
-    fn iter(&self) -> impl Iterator<Item = &Box<dyn Piece>>  {
+    fn iter(&self) -> impl Iterator<Item=&Box<dyn Piece>> {
         self.grid.flat().into_iter()
             .filter(|x| x.is_some())
             .map(|x| x.as_ref().unwrap())
     }
 
-    fn enumerate_iter(&self) -> impl Iterator<Item = (Vector3, &Box<dyn Piece>)> {
+    fn enumerate_iter(&self) -> impl Iterator<Item=(Vector3, &Box<dyn Piece>)> {
         self.grid.flat_with_index().into_iter()
-            .filter(|(p,x)| x.is_some())
-            .map(|(p,x)| (p, x.as_ref().unwrap()))
+            .filter(|(p, x)| x.is_some())
+            .map(|(p, x)| (p, x.as_ref().unwrap()))
     }
 
     fn enemy_freeze_zone(&self, player: &Player) -> Grid<Option<()>> {
         self.iter()
             .filter(|x| x.get_player() != player)
-            .filter(|x| x.freeze_zone().is_some())
-            .map(|x| (x.freeze_zone().unwrap(), *x.get_position()))
+            .map(|x| (x.freeze_zone(), *x.get_position()))
+            .filter(|(x, p)| x.is_some())
+            .map(|(x, p)| (x.unwrap(), p))
             .fold(Grid::new(), |mut acc, (dirs, pos)| {
                 let mut grid = Grid::new();
                 for dir in dirs {
