@@ -202,13 +202,9 @@ impl Board {
     }
 
     pub fn get_check_status(&self, player: Player) -> CheckStatus {
-        let king = self.grid.flat().into_iter()
-            .filter(|p| p.is_some())
-            .map(|p| p.as_ref().unwrap())
+        let king = self.iter()
             .find(|p| p.is_king() && *p.get_player() == player).expect("that player doesnt have a king");
-        let enemies = self.grid.flat().into_iter()
-            .filter(|p| p.is_some())
-            .map(|p| p.as_ref().unwrap())
+        let enemies = self.iter()
             .filter(|p| *p.get_player() != player)
             .collect::<Vec<&Box<dyn Piece>>>();
         let enemy_possible_move = enemies.into_iter()
@@ -242,9 +238,7 @@ impl Board {
         let cap_dirs = self.fix_directions(piece.capture_directions(), piece.get_player());
         self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
         self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), piece.get_player(), &mut moves);
-        let king = self.grid.flat_with_index().into_iter()
-            .filter(|(_v, p)| p.is_some())
-            .map(|(_v, p)| p.as_ref().unwrap())
+        let king = self.iter()
             .filter(|p| p.get_player() == piece.get_player())
             .find(|p| p.is_king());
         if !clone && king.is_some() {
@@ -295,10 +289,20 @@ impl Board {
         }
     }
 
-    fn enemy_freeze_zone(&self, player: &Player) -> Grid<Option<()>> {
-        self.grid.flat().iter()
+    fn iter(&self) -> impl Iterator<Item = &Box<dyn Piece>>  {
+        self.grid.flat().into_iter()
             .filter(|x| x.is_some())
             .map(|x| x.as_ref().unwrap())
+    }
+
+    fn enumerate_iter(&self) -> impl Iterator<Item = (Vector3, &Box<dyn Piece>)> {
+        self.grid.flat_with_index().into_iter()
+            .filter(|(p,x)| x.is_some())
+            .map(|(p,x)| (p, x.as_ref().unwrap()))
+    }
+
+    fn enemy_freeze_zone(&self, player: &Player) -> Grid<Option<()>> {
+        self.iter()
             .filter(|x| x.get_player() != player)
             .filter(|x| x.freeze_zone().is_some())
             .map(|x| (x.freeze_zone().unwrap(), *x.get_position()))
