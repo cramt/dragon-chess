@@ -24,7 +24,6 @@ mod sylph {
         assert_grid(&moves, hashmap! {
             Vector3::new(6, 6, 2) => Move,
             Vector3::new(4, 6, 2) => Move,
-            Vector3::new(5, 5, 1) => Move,
         });
     }
 
@@ -59,7 +58,6 @@ mod sylph {
         assert_grid(&moves, hashmap! {
             Vector3::new(6, 6, 2) => Move,
             Vector3::new(4, 6, 2) => Move,
-            Vector3::new(5, 5, 1) => Move,
             Vector3::new(5, 6, 2) => Capture,
         });
     }

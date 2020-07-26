@@ -44,7 +44,6 @@ impl Piece for Sylph {
         vec![
             MoveSetBuilder::new()
                 .direction(Vector3::new(1, 1, 0))
-                .direction(Vector3::new(0, 0, -1))
                 .mirrored_y()
                 .build()
         ]
