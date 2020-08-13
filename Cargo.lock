@@ -87,6 +87,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "core"
+version = "0.1.0"
+
+[[package]]
 name = "crossbeam-deque"
 version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -145,23 +149,6 @@ dependencies = [
  "rand",
  "wasm-bindgen",
  "web-sys",
- "yew",
-]
-
-[[package]]
-name = "dragon_chess"
-version = "0.1.0"
-dependencies = [
- "console_error_panic_hook",
- "css-in-rust",
- "js-sys",
- "lazy_static",
- "log",
- "maplit",
- "rayon",
- "wasm-bindgen",
- "wasm-bindgen-test",
- "wasm-logger",
  "yew",
 ]
 
@@ -816,6 +803,24 @@ dependencies = [
  "log",
  "wasm-bindgen",
  "web-sys",
+]
+
+[[package]]
+name = "web"
+version = "0.1.0"
+dependencies = [
+ "console_error_panic_hook",
+ "core",
+ "css-in-rust",
+ "js-sys",
+ "lazy_static",
+ "log",
+ "maplit",
+ "rayon",
+ "wasm-bindgen",
+ "wasm-bindgen-test",
+ "wasm-logger",
+ "yew",
 ]
 
 [[package]]

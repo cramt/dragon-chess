@@ -1,32 +1,15 @@
-mod front_end;
-mod board_controller;
-mod board_piece;
+mod board;
+mod raw_html;
 
 extern crate wasm_bindgen_test;
 extern crate wasm_bindgen;
 extern crate console_error_panic_hook;
 
 use wasm_bindgen::prelude::*;
-
-
-
 use yew::{App, Component, ComponentLink, Html};
-use crate::front_end::board::Board;
+use crate::board::Board;
 
 use yew::prelude::*;
-
-mod grid;
-mod tests;
-mod player;
-mod board;
-
-#[macro_use]
-extern crate lazy_static;
-
-#[macro_use]
-extern crate maplit;
-
-mod pieces;
 
 struct Main {}
 

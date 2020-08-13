@@ -1,11 +1,6 @@
 use std::ops;
 use std::fmt;
 
-
-
-
-use wasm_bindgen::describe::WasmDescribe;
-
 #[derive(Copy, Clone, Debug, std::cmp::Eq, std::hash::Hash)]
 pub struct Vector3 {
     pub x: i32,
@@ -92,9 +87,5 @@ impl PartialEq for Vector3 {
     fn eq(&self, other: &Self) -> bool {
         self.x == other.x && self.y == other.y && self.z == other.z
     }
-}
-
-impl WasmDescribe for Vector3 {
-    fn describe() {}
 }
 

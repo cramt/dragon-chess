@@ -1,12 +1,12 @@
 
 use yew::prelude::*;
 use css_in_rust::Style;
-use wasm_bindgen::__rt::std::collections::HashMap;
-use crate::pieces::Piece;
-use crate::board::MoveType;
-use crate::board_controller::BoardController;
-use crate::pieces::vector3::Vector3;
-use crate::board_controller::PieceColor::White;
+use std::collections::HashMap;
+use core::pieces::vector3::Vector3;
+use core::board_controller::PieceColor::White;
+use core::pieces::Piece;
+use core::board_controller::BoardController;
+use core::board::MoveType;
 
 pub struct Board {
     link: ComponentLink<Self>,
