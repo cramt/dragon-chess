@@ -5,10 +5,10 @@ mod freezing {
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
 
-    
+
     use crate::tests::assert_grid::assert_grid;
 
-    
+
 
     use crate::pieces::oliphant::Oliphant;
     use crate::pieces::basilisk::Basilisk;
@@ -17,7 +17,7 @@ mod freezing {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(2);
 
-    #[wasm_bindgen_test::wasm_bindgen_test]
+
     #[test]
     fn freezes_opponent() {
         let v = Vector3::new(5, 5, 1);

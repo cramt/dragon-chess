@@ -20,7 +20,7 @@ mod checkmate {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(2);
 
-    #[wasm_bindgen_test::wasm_bindgen_test]
+
     #[test]
     fn free() {
         let board = Board::new_specified(vec![
@@ -29,7 +29,7 @@ mod checkmate {
         assert_eq!(board.get_check_status(PLAYER1), Free);
     }
 
-    #[wasm_bindgen_test::wasm_bindgen_test]
+
     #[test]
     fn checked() {
         let board = Board::new_specified(vec![
@@ -39,7 +39,7 @@ mod checkmate {
         assert_eq!(board.get_check_status(PLAYER1), Check);
     }
 
-    #[wasm_bindgen_test::wasm_bindgen_test]
+
     #[test]
     fn checkmated() {
         let mut board = Board::new_specified(vec![

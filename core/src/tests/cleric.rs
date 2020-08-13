@@ -15,7 +15,7 @@ mod cleric {
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(2);
 
-    #[wasm_bindgen_test::wasm_bindgen_test]
+
     #[test]
     fn basic_move() {
         let v = Vector3::new(5, 5, 1);
