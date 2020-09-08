@@ -1,6 +1,6 @@
-use crate::pieces::Piece;
 use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
+use crate::pieces::Piece;
 
 use crate::player::Player;
 
@@ -27,16 +27,17 @@ impl Piece for Dragon {
     }
 
     fn move_directions(&self) -> Vec<MoveSet> {
-        vec![MoveSetBuilder::new()
-                 .direction(Vector3::new(1, 1, 0))
-                 .mirrored()
-                 .repeated()
-                 .build(),
-             MoveSetBuilder::new()
-                 .direction(Vector3::new(1, 0, 0))
-                 .direction(Vector3::new(0, 1, 0))
-                 .mirrored()
-                 .build()
+        vec![
+            MoveSetBuilder::new()
+                .direction(Vector3::new(1, 1, 0))
+                .mirrored()
+                .repeated()
+                .build(),
+            MoveSetBuilder::new()
+                .direction(Vector3::new(1, 0, 0))
+                .direction(Vector3::new(0, 1, 0))
+                .mirrored()
+                .build(),
         ]
     }
 
@@ -48,7 +49,7 @@ impl Piece for Dragon {
                 .remote()
                 .direction(Vector3::new(0, 0, -1))
                 .direction(Vector3::new(1, 1, -1))
-                .build()
+                .build(),
         );
         move_dir
     }
@@ -68,9 +69,6 @@ impl Piece for Dragon {
 
 impl Dragon {
     pub fn new(position: Vector3, player: Player) -> Dragon {
-        Dragon {
-            position,
-            player,
-        }
+        Dragon { position, player }
     }
 }

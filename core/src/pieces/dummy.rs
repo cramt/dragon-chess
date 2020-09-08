@@ -1,6 +1,6 @@
+use crate::pieces::move_set::MoveSet;
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet};
 
 use crate::player::Player;
 
@@ -49,9 +49,6 @@ impl Piece for Dummy {
 
 impl Dummy {
     pub fn new(position: Vector3, player: Player) -> Dummy {
-        Dummy {
-            position,
-            player,
-        }
+        Dummy { position, player }
     }
 }

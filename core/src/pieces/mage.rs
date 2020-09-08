@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -33,20 +33,19 @@ impl Piece for Mage {
                 MoveSetBuilder::new()
                     .mirrored()
                     .direction(Vector3::new(1, 1, 0))
-                    .build()
+                    .build(),
             )
         }
         vec
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
-        let mut vec = vec![
-            MoveSetBuilder::new()
-                .mirrored()
-                .repeated()
-                .direction(Vector3::new(0, 0, 1))
-                .direction(Vector3::new(0, 0, -1)).build()
-        ];
+        let mut vec = vec![MoveSetBuilder::new()
+            .mirrored()
+            .repeated()
+            .direction(Vector3::new(0, 0, 1))
+            .direction(Vector3::new(0, 0, -1))
+            .build()];
         if self.position.z == 1 {
             vec.push(
                 MoveSetBuilder::new()
@@ -55,7 +54,7 @@ impl Piece for Mage {
                     .direction(Vector3::new(1, 1, 0))
                     .direction(Vector3::new(1, 0, 0))
                     .direction(Vector3::new(0, 1, 0))
-                    .build()
+                    .build(),
             )
         }
         vec
@@ -72,9 +71,6 @@ impl Piece for Mage {
 
 impl Mage {
     pub fn new(position: Vector3, player: Player) -> Mage {
-        Mage {
-            position,
-            player,
-        }
+        Mage { position, player }
     }
 }

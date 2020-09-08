@@ -1,6 +1,6 @@
 #[derive(Copy, Clone)]
 pub struct Player {
-    id: u64
+    id: u64,
 }
 
 impl Player {

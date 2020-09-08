@@ -1,13 +1,13 @@
 mod board;
 mod raw_html;
 
-extern crate wasm_bindgen_test;
-extern crate wasm_bindgen;
 extern crate console_error_panic_hook;
+extern crate wasm_bindgen;
+extern crate wasm_bindgen_test;
 
+use crate::board::Board;
 use wasm_bindgen::prelude::*;
 use yew::{App, Component, ComponentLink, Html};
-use crate::board::Board;
 
 use yew::prelude::*;
 

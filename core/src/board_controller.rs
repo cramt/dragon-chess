@@ -1,13 +1,12 @@
-use crate::board::{Board, MoveType, CheckStatus};
+use crate::board::CheckStatus::Free;
+use crate::board::{Board, CheckStatus, MoveType};
+use crate::board_controller::PieceColor::{Black, White};
+use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::grid::Grid;
-use crate::board_controller::PieceColor::{White, Black};
-use std::collections::HashMap;
 use crate::player::Player;
 use core::fmt;
-use crate::board::CheckStatus::Free;
-
+use std::collections::HashMap;
 
 #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
 pub enum PieceColor {
@@ -19,7 +18,7 @@ impl PieceColor {
     pub fn flip(&self) -> PieceColor {
         match self {
             White => Black,
-            Black => White
+            Black => White,
         }
     }
 }
@@ -36,7 +35,7 @@ pub struct BoardController {
     board: Board,
     pub selected: Option<Vector3>,
     turn: PieceColor,
-    check_mate: CheckStatus
+    check_mate: CheckStatus,
 }
 
 impl Default for BoardController {
@@ -54,17 +53,26 @@ impl BoardController {
     pub fn reset(&mut self) {
         self.board = Board::new_default();
     }
-    pub fn check_mate(&self) -> (PieceColor, CheckStatus){
+    pub fn check_mate(&self) -> (PieceColor, CheckStatus) {
         (self.turn, self.check_mate)
     }
-    pub fn piece_info(&self, position: Vector3) -> Option<(&Box<dyn Piece>, Grid<Option<MoveType>>)> {
+    pub fn piece_info(
+        &self,
+        position: Vector3,
+    ) -> Option<(&Box<dyn Piece>, Grid<Option<MoveType>>)> {
         match self.board.grid[&position].as_ref() {
             Some(piece) => Some((piece, self.board.possible_moves(piece))),
-            None => None
+            None => None,
         }
     }
     pub fn pieces_info(&self) -> Vec<&Box<dyn Piece>> {
-        self.board.grid.flat().into_iter().filter(|x| x.is_some()).map(|x| x.as_ref().unwrap()).collect()
+        self.board
+            .grid
+            .flat()
+            .into_iter()
+            .filter(|x| x.is_some())
+            .map(|x| x.as_ref().unwrap())
+            .collect()
     }
     fn get_current_player(&self) -> Player {
         if self.turn == White {
@@ -93,7 +101,7 @@ impl BoardController {
                     None
                 }
             }
-            None => None
+            None => None,
         };
     }
     pub fn possible_moves(&self) -> HashMap<Vector3, MoveType> {
@@ -101,12 +109,14 @@ impl BoardController {
             None => HashMap::new(),
             Some(position) => match self.piece_info(position) {
                 None => HashMap::new(),
-                Some(piece) => piece.1.flat_with_index_owned()
+                Some(piece) => piece
+                    .1
+                    .flat_with_index_owned()
                     .into_iter()
                     .filter(|(_v, m)| m.is_some())
                     .map(|(v, m)| (v, m.unwrap()))
-                    .collect::<HashMap<Vector3, MoveType>>()
-            }
+                    .collect::<HashMap<Vector3, MoveType>>(),
+            },
         }
     }
     pub fn color_of_piece(&self, piece: &Box<dyn Piece>) -> PieceColor {

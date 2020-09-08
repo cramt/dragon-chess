@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -31,19 +31,17 @@ impl Piece for Basilisk {
         vec.push(
             MoveSetBuilder::new()
                 .direction(Vector3::new(0, -1, 0))
-                .build()
+                .build(),
         );
         vec
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
-        vec![
-            MoveSetBuilder::new()
-                .mirrored_y()
-                .direction(Vector3::new(1, 1, 0))
-                .direction(Vector3::new(0, 1, 0))
-                .build()
-        ]
+        vec![MoveSetBuilder::new()
+            .mirrored_y()
+            .direction(Vector3::new(1, 1, 0))
+            .direction(Vector3::new(0, 1, 0))
+            .build()]
     }
 
     fn get_name(&self) -> &str {
@@ -51,9 +49,7 @@ impl Piece for Basilisk {
     }
 
     fn freeze_zone(&self) -> Option<Vec<Vector3>> {
-        Some(vec![
-            Vector3::new(0, 0, 1)
-        ])
+        Some(vec![Vector3::new(0, 0, 1)])
     }
 
     fn internal_clone(&self) -> Box<dyn Piece> {
@@ -63,9 +59,6 @@ impl Piece for Basilisk {
 
 impl Basilisk {
     pub fn new(position: Vector3, player: Player) -> Basilisk {
-        Basilisk {
-            position,
-            player,
-        }
+        Basilisk { position, player }
     }
 }

@@ -1,30 +1,29 @@
-use crate::pieces::Piece;
+use crate::board::MoveType::{Capture, Move, RemoteCapture};
 use crate::grid::Grid;
-use crate::pieces::vector3::Vector3;
 use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
-use crate::board::MoveType::{Move, Capture, RemoteCapture};
+use crate::pieces::vector3::Vector3;
+use crate::pieces::Piece;
 
 use crate::board_piece::BoardPiece;
-use crate::pieces::move_set::MoveSet;
-use crate::pieces::griffon::Griffon;
-use crate::player::Player;
-use crate::pieces::sylph::Sylph;
-use crate::pieces::dragon::Dragon;
-use crate::pieces::warrior::Warrior;
-use crate::pieces::oliphant::Oliphant;
-use crate::pieces::unicorn::Unicorn;
-use crate::pieces::hero::Hero;
-use crate::pieces::thief::Thief;
-use crate::pieces::mage::Mage;
-use crate::pieces::cleric::Cleric;
-use crate::pieces::king::King;
-use crate::pieces::paladin::Paladin;
-use crate::pieces::dwarf::Dwarf;
 use crate::pieces::basilisk::Basilisk;
+use crate::pieces::cleric::Cleric;
+use crate::pieces::dragon::Dragon;
+use crate::pieces::dwarf::Dwarf;
 use crate::pieces::elemental::Elemental;
+use crate::pieces::griffon::Griffon;
+use crate::pieces::hero::Hero;
+use crate::pieces::king::King;
+use crate::pieces::mage::Mage;
+use crate::pieces::move_set::MoveSet;
+use crate::pieces::oliphant::Oliphant;
+use crate::pieces::paladin::Paladin;
+use crate::pieces::sylph::Sylph;
+use crate::pieces::thief::Thief;
+use crate::pieces::unicorn::Unicorn;
+use crate::pieces::warrior::Warrior;
+use crate::player::Player;
 
-use crate::board::CheckStatus::{CheckMate, Free, Check};
-
+use crate::board::CheckStatus::{Check, CheckMate, Free};
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum MoveType {
@@ -70,116 +69,120 @@ impl Board {
     }
 
     pub fn new_default_with_players(white: Player, black: Player) -> Board {
-        Board::new_specified(vec![
-            //griffon white
-            Box::new(Griffon::new(Vector3::new(2, 0, 2), white)),
-            Box::new(Griffon::new(Vector3::new(10, 0, 2), white)),
-            //griffon black
-            Box::new(Griffon::new(Vector3::new(2, 7, 2), black)),
-            Box::new(Griffon::new(Vector3::new(10, 7, 2), black)),
-            //sylph white
-            Box::new(Sylph::new(Vector3::new(0, 1, 2), white)),
-            Box::new(Sylph::new(Vector3::new(2, 1, 2), white)),
-            Box::new(Sylph::new(Vector3::new(4, 1, 2), white)),
-            Box::new(Sylph::new(Vector3::new(6, 1, 2), white)),
-            Box::new(Sylph::new(Vector3::new(8, 1, 2), white)),
-            Box::new(Sylph::new(Vector3::new(10, 1, 2), white)),
-            //sylph black
-            Box::new(Sylph::new(Vector3::new(0, 6, 2), black)),
-            Box::new(Sylph::new(Vector3::new(2, 6, 2), black)),
-            Box::new(Sylph::new(Vector3::new(4, 6, 2), black)),
-            Box::new(Sylph::new(Vector3::new(6, 6, 2), black)),
-            Box::new(Sylph::new(Vector3::new(8, 6, 2), black)),
-            Box::new(Sylph::new(Vector3::new(10, 6, 2), black)),
-            //dragons
-            Box::new(Dragon::new(Vector3::new(6, 0, 2), white)),
-            Box::new(Dragon::new(Vector3::new(6, 7, 2), black)),
-            //warrior white
-            Box::new(Warrior::new(Vector3::new(0, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(1, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(2, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(3, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(4, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(5, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(6, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(7, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(8, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(9, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(10, 1, 1), white)),
-            Box::new(Warrior::new(Vector3::new(11, 1, 1), white)),
-            //warrior black
-            Box::new(Warrior::new(Vector3::new(0, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(1, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(2, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(3, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(4, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(5, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(6, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(7, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(8, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(9, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(10, 6, 1), black)),
-            Box::new(Warrior::new(Vector3::new(11, 6, 1), black)),
-            //oliphant white
-            Box::new(Oliphant::new(Vector3::new(0, 0, 1), white)),
-            Box::new(Oliphant::new(Vector3::new(11, 0, 1), white)),
-            //oliphant black
-            Box::new(Oliphant::new(Vector3::new(0, 7, 1), black)),
-            Box::new(Oliphant::new(Vector3::new(11, 7, 1), black)),
-            //unicorn white
-            Box::new(Unicorn::new(Vector3::new(1, 0, 1), white)),
-            Box::new(Unicorn::new(Vector3::new(10, 0, 1), white)),
-            //unicorn black
-            Box::new(Unicorn::new(Vector3::new(1, 7, 1), black)),
-            Box::new(Unicorn::new(Vector3::new(10, 7, 1), black)),
-            //hero white
-            Box::new(Hero::new(Vector3::new(2, 0, 1), white)),
-            Box::new(Hero::new(Vector3::new(9, 0, 1), white)),
-            //hero black
-            Box::new(Hero::new(Vector3::new(2, 7, 1), black)),
-            Box::new(Hero::new(Vector3::new(9, 7, 1), black)),
-            //thief white
-            Box::new(Thief::new(Vector3::new(3, 0, 1), white)),
-            Box::new(Thief::new(Vector3::new(8, 0, 1), white)),
-            //thief black
-            Box::new(Thief::new(Vector3::new(3, 7, 1), black)),
-            Box::new(Thief::new(Vector3::new(8, 7, 1), black)),
-            //clerics
-            Box::new(Cleric::new(Vector3::new(4, 0, 1), white)),
-            Box::new(Cleric::new(Vector3::new(4, 7, 1), black)),
-            //mages
-            Box::new(Mage::new(Vector3::new(5, 0, 1), white)),
-            Box::new(Mage::new(Vector3::new(5, 7, 1), black)),
-            //kings
-            Box::new(King::new(Vector3::new(6, 0, 1), white)),
-            Box::new(King::new(Vector3::new(6, 7, 1), black)),
-            //paladins
-            Box::new(Paladin::new(Vector3::new(7, 0, 1), white)),
-            Box::new(Paladin::new(Vector3::new(7, 7, 1), black)),
-            //dwarf white
-            Box::new(Dwarf::new(Vector3::new(1, 1, 0), white)),
-            Box::new(Dwarf::new(Vector3::new(3, 1, 0), white)),
-            Box::new(Dwarf::new(Vector3::new(5, 1, 0), white)),
-            Box::new(Dwarf::new(Vector3::new(7, 1, 0), white)),
-            Box::new(Dwarf::new(Vector3::new(9, 1, 0), white)),
-            Box::new(Dwarf::new(Vector3::new(11, 1, 0), white)),
-            //dwarf black
-            Box::new(Dwarf::new(Vector3::new(1, 6, 0), black)),
-            Box::new(Dwarf::new(Vector3::new(3, 6, 0), black)),
-            Box::new(Dwarf::new(Vector3::new(5, 6, 0), black)),
-            Box::new(Dwarf::new(Vector3::new(7, 6, 0), black)),
-            Box::new(Dwarf::new(Vector3::new(9, 6, 0), black)),
-            Box::new(Dwarf::new(Vector3::new(11, 6, 0), black)),
-            //basilisk white
-            Box::new(Basilisk::new(Vector3::new(2, 0, 0), white)),
-            Box::new(Basilisk::new(Vector3::new(10, 0, 0), white)),
-            //basilisk black
-            Box::new(Basilisk::new(Vector3::new(2, 7, 0), black)),
-            Box::new(Basilisk::new(Vector3::new(10, 7, 0), black)),
-            //elementals
-            Box::new(Elemental::new(Vector3::new(6, 0, 0), white)),
-            Box::new(Elemental::new(Vector3::new(6, 7, 0), black)),
-        ], white, black)
+        Board::new_specified(
+            vec![
+                //griffon white
+                Box::new(Griffon::new(Vector3::new(2, 0, 2), white)),
+                Box::new(Griffon::new(Vector3::new(10, 0, 2), white)),
+                //griffon black
+                Box::new(Griffon::new(Vector3::new(2, 7, 2), black)),
+                Box::new(Griffon::new(Vector3::new(10, 7, 2), black)),
+                //sylph white
+                Box::new(Sylph::new(Vector3::new(0, 1, 2), white)),
+                Box::new(Sylph::new(Vector3::new(2, 1, 2), white)),
+                Box::new(Sylph::new(Vector3::new(4, 1, 2), white)),
+                Box::new(Sylph::new(Vector3::new(6, 1, 2), white)),
+                Box::new(Sylph::new(Vector3::new(8, 1, 2), white)),
+                Box::new(Sylph::new(Vector3::new(10, 1, 2), white)),
+                //sylph black
+                Box::new(Sylph::new(Vector3::new(0, 6, 2), black)),
+                Box::new(Sylph::new(Vector3::new(2, 6, 2), black)),
+                Box::new(Sylph::new(Vector3::new(4, 6, 2), black)),
+                Box::new(Sylph::new(Vector3::new(6, 6, 2), black)),
+                Box::new(Sylph::new(Vector3::new(8, 6, 2), black)),
+                Box::new(Sylph::new(Vector3::new(10, 6, 2), black)),
+                //dragons
+                Box::new(Dragon::new(Vector3::new(6, 0, 2), white)),
+                Box::new(Dragon::new(Vector3::new(6, 7, 2), black)),
+                //warrior white
+                Box::new(Warrior::new(Vector3::new(0, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(1, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(2, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(3, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(4, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(5, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(6, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(7, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(8, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(9, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(10, 1, 1), white)),
+                Box::new(Warrior::new(Vector3::new(11, 1, 1), white)),
+                //warrior black
+                Box::new(Warrior::new(Vector3::new(0, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(1, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(2, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(3, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(4, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(5, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(6, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(7, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(8, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(9, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(10, 6, 1), black)),
+                Box::new(Warrior::new(Vector3::new(11, 6, 1), black)),
+                //oliphant white
+                Box::new(Oliphant::new(Vector3::new(0, 0, 1), white)),
+                Box::new(Oliphant::new(Vector3::new(11, 0, 1), white)),
+                //oliphant black
+                Box::new(Oliphant::new(Vector3::new(0, 7, 1), black)),
+                Box::new(Oliphant::new(Vector3::new(11, 7, 1), black)),
+                //unicorn white
+                Box::new(Unicorn::new(Vector3::new(1, 0, 1), white)),
+                Box::new(Unicorn::new(Vector3::new(10, 0, 1), white)),
+                //unicorn black
+                Box::new(Unicorn::new(Vector3::new(1, 7, 1), black)),
+                Box::new(Unicorn::new(Vector3::new(10, 7, 1), black)),
+                //hero white
+                Box::new(Hero::new(Vector3::new(2, 0, 1), white)),
+                Box::new(Hero::new(Vector3::new(9, 0, 1), white)),
+                //hero black
+                Box::new(Hero::new(Vector3::new(2, 7, 1), black)),
+                Box::new(Hero::new(Vector3::new(9, 7, 1), black)),
+                //thief white
+                Box::new(Thief::new(Vector3::new(3, 0, 1), white)),
+                Box::new(Thief::new(Vector3::new(8, 0, 1), white)),
+                //thief black
+                Box::new(Thief::new(Vector3::new(3, 7, 1), black)),
+                Box::new(Thief::new(Vector3::new(8, 7, 1), black)),
+                //clerics
+                Box::new(Cleric::new(Vector3::new(4, 0, 1), white)),
+                Box::new(Cleric::new(Vector3::new(4, 7, 1), black)),
+                //mages
+                Box::new(Mage::new(Vector3::new(5, 0, 1), white)),
+                Box::new(Mage::new(Vector3::new(5, 7, 1), black)),
+                //kings
+                Box::new(King::new(Vector3::new(6, 0, 1), white)),
+                Box::new(King::new(Vector3::new(6, 7, 1), black)),
+                //paladins
+                Box::new(Paladin::new(Vector3::new(7, 0, 1), white)),
+                Box::new(Paladin::new(Vector3::new(7, 7, 1), black)),
+                //dwarf white
+                Box::new(Dwarf::new(Vector3::new(1, 1, 0), white)),
+                Box::new(Dwarf::new(Vector3::new(3, 1, 0), white)),
+                Box::new(Dwarf::new(Vector3::new(5, 1, 0), white)),
+                Box::new(Dwarf::new(Vector3::new(7, 1, 0), white)),
+                Box::new(Dwarf::new(Vector3::new(9, 1, 0), white)),
+                Box::new(Dwarf::new(Vector3::new(11, 1, 0), white)),
+                //dwarf black
+                Box::new(Dwarf::new(Vector3::new(1, 6, 0), black)),
+                Box::new(Dwarf::new(Vector3::new(3, 6, 0), black)),
+                Box::new(Dwarf::new(Vector3::new(5, 6, 0), black)),
+                Box::new(Dwarf::new(Vector3::new(7, 6, 0), black)),
+                Box::new(Dwarf::new(Vector3::new(9, 6, 0), black)),
+                Box::new(Dwarf::new(Vector3::new(11, 6, 0), black)),
+                //basilisk white
+                Box::new(Basilisk::new(Vector3::new(2, 0, 0), white)),
+                Box::new(Basilisk::new(Vector3::new(10, 0, 0), white)),
+                //basilisk black
+                Box::new(Basilisk::new(Vector3::new(2, 7, 0), black)),
+                Box::new(Basilisk::new(Vector3::new(10, 7, 0), black)),
+                //elementals
+                Box::new(Elemental::new(Vector3::new(6, 0, 0), white)),
+                Box::new(Elemental::new(Vector3::new(6, 7, 0), black)),
+            ],
+            white,
+            black,
+        )
     }
 
     pub fn new_default() -> Board {
@@ -202,19 +205,29 @@ impl Board {
     }
 
     pub fn get_check_status(&self, player: Player) -> CheckStatus {
-        let king = self.iter()
-            .find(|p| p.is_king() && *p.get_player() == player).expect("that player doesnt have a king");
-        let enemies = self.iter()
+        let king = self
+            .iter()
+            .find(|p| p.is_king() && *p.get_player() == player)
+            .expect("that player doesnt have a king");
+        let enemies = self
+            .iter()
             .filter(|p| *p.get_player() != player)
             .collect::<Vec<&Box<dyn Piece>>>();
-        let enemy_possible_move = enemies.into_iter()
+        let enemy_possible_move = enemies
+            .into_iter()
             .map(|p| self.possible_moves_internal(p, true))
             .collect::<Vec<Grid<Option<MoveType>>>>();
         for m in enemy_possible_move {
             if m[king.get_position()] == Some(Capture) {
-                return if self.possible_moves_internal(king, false).flat().into_iter()
+                return if self
+                    .possible_moves_internal(king, false)
+                    .flat()
+                    .into_iter()
                     .filter(|p| p.is_some())
-                    .collect::<Vec<&Option<MoveType>>>().len() == 0 {
+                    .collect::<Vec<&Option<MoveType>>>()
+                    .len()
+                    == 0
+                {
                     CheckMate
                 } else {
                     Check
@@ -228,7 +241,11 @@ impl Board {
         self.possible_moves_internal(piece, self.clone)
     }
 
-    fn possible_moves_internal(&self, piece: &Box<dyn Piece>, clone: bool) -> Grid<Option<MoveType>> {
+    fn possible_moves_internal(
+        &self,
+        piece: &Box<dyn Piece>,
+        clone: bool,
+    ) -> Grid<Option<MoveType>> {
         let freeze_zone = self.enemy_freeze_zone(piece.get_player());
         if freeze_zone[piece.get_position()].is_some() {
             return Grid::new();
@@ -237,67 +254,93 @@ impl Board {
         let move_dirs = self.fix_directions(piece.move_directions(), piece.get_player());
         let cap_dirs = self.fix_directions(piece.capture_directions(), piece.get_player());
         self.unwrap_from_move_dirs(move_dirs, *piece.get_position(), &mut moves);
-        self.unwrap_from_capture_dirs(cap_dirs, *piece.get_position(), piece.get_player(), &mut moves);
-        let king = self.iter()
+        self.unwrap_from_capture_dirs(
+            cap_dirs,
+            *piece.get_position(),
+            piece.get_player(),
+            &mut moves,
+        );
+        let king = self
+            .iter()
             .filter(|p| p.get_player() == piece.get_player())
             .find(|p| p.is_king());
         if !clone && king.is_some() {
-            moves = Grid::from_map(moves.flat_with_index_owned().into_iter()
-                .filter(|(_v, p)| p.is_some())
-                .map(|(v, p)| (v, p.unwrap()))
-                .filter(|(v, _p)| {
-                    let mut king_pos = king.unwrap().get_position();
-                    let mut clone_board = Board::create_clone(self);
-                    {
-                        println!("{:?}", self.grid[piece.get_position()]);
-                        let mut board_piece = clone_board.board_piece(*piece.get_position()).unwrap();
-                        board_piece.move_piece(*v);
-                        if board_piece.get_piece().is_king() {
-                            king_pos = v;
+            moves = Grid::from_map(
+                moves
+                    .flat_with_index_owned()
+                    .into_iter()
+                    .filter(|(_v, p)| p.is_some())
+                    .map(|(v, p)| (v, p.unwrap()))
+                    .filter(|(v, _p)| {
+                        let mut king_pos = king.unwrap().get_position();
+                        let mut clone_board = Board::create_clone(self);
+                        {
+                            println!("{:?}", self.grid[piece.get_position()]);
+                            let mut board_piece =
+                                clone_board.board_piece(*piece.get_position()).unwrap();
+                            board_piece.move_piece(*v);
+                            if board_piece.get_piece().is_king() {
+                                king_pos = v;
+                            }
                         }
-                    }
-                    let enemy_pieces = clone_board.grid.flat_with_index().into_iter()
-                        .filter(|(_v, p)| p.is_some())
-                        .map(|(v, p)| (v, p.as_ref().unwrap()))
-                        .filter(|(_v, p)| p.get_player() != piece.get_player())
-                        .collect::<Vec<(Vector3, &Box<dyn Piece>)>>();
-                    let move_pattern = enemy_pieces.iter()
-                        .map(|(_v, p)| clone_board.possible_moves(p))
-                        .map(|g| g.flat_with_index_owned())
-                        .flatten()
-                        .filter(|(_v, p)| p.is_some())
-                        .map(|(v, _p)| v)
-                        .collect::<Vec<Vector3>>();
-                    !move_pattern.contains(king_pos)
-                })
-                .map(|(v, p)| (v, Some(p)))
-                .collect());
+                        let enemy_pieces = clone_board
+                            .grid
+                            .flat_with_index()
+                            .into_iter()
+                            .filter(|(_v, p)| p.is_some())
+                            .map(|(v, p)| (v, p.as_ref().unwrap()))
+                            .filter(|(_v, p)| p.get_player() != piece.get_player())
+                            .collect::<Vec<(Vector3, &Box<dyn Piece>)>>();
+                        let move_pattern = enemy_pieces
+                            .iter()
+                            .map(|(_v, p)| clone_board.possible_moves(p))
+                            .map(|g| g.flat_with_index_owned())
+                            .flatten()
+                            .filter(|(_v, p)| p.is_some())
+                            .map(|(v, _p)| v)
+                            .collect::<Vec<Vector3>>();
+                        !move_pattern.contains(king_pos)
+                    })
+                    .map(|(v, p)| (v, Some(p)))
+                    .collect(),
+            );
         }
         moves
     }
 
     fn fix_directions(&self, move_set: Vec<MoveSet>, player: &Player) -> Vec<MoveSet> {
         if self.black == *player {
-            move_set.into_iter().map(|mut x| {
-                x.directions = x.directions.into_iter().map(|mut v| {
-                    v.y *= -1;
-                    v
-                }).collect();
-                x
-            }).collect()
+            move_set
+                .into_iter()
+                .map(|mut x| {
+                    x.directions = x
+                        .directions
+                        .into_iter()
+                        .map(|mut v| {
+                            v.y *= -1;
+                            v
+                        })
+                        .collect();
+                    x
+                })
+                .collect()
         } else {
             move_set
         }
     }
 
-    fn iter(&self) -> impl Iterator<Item=&Box<dyn Piece>> {
-        self.grid.flat().into_iter()
+    fn iter(&self) -> impl Iterator<Item = &Box<dyn Piece>> {
+        self.grid
+            .flat()
+            .into_iter()
             .filter(|x| x.is_some())
             .map(|x| x.as_ref().unwrap())
     }
 
-    fn enumerate_iter(&self) -> impl Iterator<Item=(Vector3, &Box<dyn Piece>)> {
-        self.grid.flat_with_index().into_iter()
+    fn enumerate_iter(&self) -> impl Iterator<Item = (Vector3, &Box<dyn Piece>)> {
+        self.grid
+            .flat_with_index()
+            .into_iter()
             .filter(|(p, x)| x.is_some())
             .map(|(p, x)| (p, x.as_ref().unwrap()))
     }
@@ -319,7 +362,13 @@ impl Board {
             })
     }
 
-    fn unwrap_from_capture_dirs(&self, cap_dirs: Vec<MoveSet>, piece_position: Vector3, player: &Player, moves: &mut Grid<Option<MoveType>>) {
+    fn unwrap_from_capture_dirs(
+        &self,
+        cap_dirs: Vec<MoveSet>,
+        piece_position: Vector3,
+        player: &Player,
+        moves: &mut Grid<Option<MoveType>>,
+    ) {
         for cap_dir in cap_dirs {
             if cap_dir.repeated {
                 for dir in &cap_dir.directions {
@@ -339,17 +388,32 @@ impl Board {
                     }
                 }
             } else {
-                let dir = cap_dir.directions.into_iter().map(|v| v + piece_position).collect::<Vec<Vector3>>();
+                let dir = cap_dir
+                    .directions
+                    .into_iter()
+                    .map(|v| v + piece_position)
+                    .collect::<Vec<Vector3>>();
                 for dir in dir {
-                    if self.grid.valid(&dir) == NonDefaultValue && self.grid[&dir].as_ref().unwrap().get_player() != player {
-                        moves[&dir] = Some(if cap_dir.remote { RemoteCapture } else { Capture });
+                    if self.grid.valid(&dir) == NonDefaultValue
+                        && self.grid[&dir].as_ref().unwrap().get_player() != player
+                    {
+                        moves[&dir] = Some(if cap_dir.remote {
+                            RemoteCapture
+                        } else {
+                            Capture
+                        });
                     }
                 }
             }
         }
     }
 
-    fn unwrap_from_move_dirs(&self, move_dirs: Vec<MoveSet>, piece_position: Vector3, moves: &mut Grid<Option<MoveType>>) {
+    fn unwrap_from_move_dirs(
+        &self,
+        move_dirs: Vec<MoveSet>,
+        piece_position: Vector3,
+        moves: &mut Grid<Option<MoveType>>,
+    ) {
         for move_dir in move_dirs {
             if move_dir.repeated {
                 for dir in &move_dir.directions {
@@ -365,7 +429,11 @@ impl Board {
             } else if move_dir.remote {
                 panic!("you cant move remote");
             } else {
-                let dir = move_dir.directions.into_iter().map(|v| v + piece_position).collect::<Vec<Vector3>>();
+                let dir = move_dir
+                    .directions
+                    .into_iter()
+                    .map(|v| v + piece_position)
+                    .collect::<Vec<Vector3>>();
                 for dir in dir {
                     if self.grid.valid(&dir) == DefaultValue {
                         moves[&dir] = Some(Move);
@@ -375,7 +443,12 @@ impl Board {
         }
     }
 
-    pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<Vector3, &str> {
+    pub fn move_piece(
+        &mut self,
+        from: Vector3,
+        to: Vector3,
+        possible_moves: Grid<Option<MoveType>>,
+    ) -> Result<Vector3, &str> {
         let remote = match &possible_moves[&to] {
             Some(move_type) => {
                 let move_type = *move_type;
@@ -391,13 +464,15 @@ impl Board {
                 return Err("not a possible move");
             }
         } == RemoteCapture;
-        let final_pos = if remote {
-            &from
-        } else {
-            &to
-        };
+        let final_pos = if remote { &from } else { &to };
         if let Some(piece) = self.grid[final_pos].as_ref() {
-            if final_pos.y == if *piece.get_player() == self.white { 7 } else { 0 } {
+            if final_pos.y
+                == if *piece.get_player() == self.white {
+                    7
+                } else {
+                    0
+                }
+            {
                 if let Some(promote) = piece.promote() {
                     self.grid[final_pos] = Some(promote);
                 }
@@ -413,7 +488,9 @@ impl Board {
     }
 
     fn update_piece_position(&mut self, position: &Vector3) {
-        self.grid[position].as_mut().map(|x| x.set_position(position.clone()));
+        self.grid[position]
+            .as_mut()
+            .map(|x| x.set_position(position.clone()));
     }
 
     pub fn kill_piece(&mut self, position: &Vector3) {

@@ -1,8 +1,6 @@
-
-
 use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
-use crate::pieces::Piece;
 use crate::pieces::vector3::Vector3;
+use crate::pieces::Piece;
 use crate::player::Player;
 
 pub struct Unicorn {
@@ -30,8 +28,8 @@ impl Piece for Unicorn {
     fn move_directions(&self) -> Vec<MoveSet> {
         vec![MoveSetBuilder::new()
             .mirrored()
-            .direction(Vector3::new(1,2,0))
-            .direction(Vector3::new(2,1,0))
+            .direction(Vector3::new(1, 2, 0))
+            .direction(Vector3::new(2, 1, 0))
             .build()]
     }
 
@@ -50,9 +48,6 @@ impl Piece for Unicorn {
 
 impl Unicorn {
     pub fn new(position: Vector3, player: Player) -> Unicorn {
-        Unicorn {
-            position,
-            player,
-        }
+        Unicorn { position, player }
     }
 }

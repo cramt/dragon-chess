@@ -1,10 +1,10 @@
 use std::default::Default;
 
-use crate::pieces::move_set::{MoveSet, MoveSetArg};
-use crate::pieces::Piece;
-use crate::pieces::vector3::Vector3;
-use crate::player::Player;
 use crate::pieces::hero::Hero;
+use crate::pieces::move_set::{MoveSet, MoveSetArg};
+use crate::pieces::vector3::Vector3;
+use crate::pieces::Piece;
+use crate::player::Player;
 
 pub struct Warrior {
     position: Vector3,
@@ -32,7 +32,8 @@ impl Piece for Warrior {
         vec![MoveSetArg {
             directions: vec![Vector3::new(0, 1, 0)],
             ..Default::default()
-        }.build()]
+        }
+        .build()]
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
@@ -40,7 +41,8 @@ impl Piece for Warrior {
             directions: vec![Vector3::new(1, 1, 0)],
             mirrored_y: true,
             ..Default::default()
-        }.build()]
+        }
+        .build()]
     }
 
     fn get_name(&self) -> &str {
@@ -53,14 +55,10 @@ impl Piece for Warrior {
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Warrior::new(self.position, self.player))
     }
-
 }
 
 impl Warrior {
     pub fn new(position: Vector3, player: Player) -> Warrior {
-        Warrior {
-            position,
-            player,
-        }
+        Warrior { position, player }
     }
 }

@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -28,7 +28,7 @@ impl Piece for Thief {
 
     fn move_directions(&self) -> Vec<MoveSet> {
         vec![MoveSetBuilder::new()
-            .direction(Vector3::new(1,1,0))
+            .direction(Vector3::new(1, 1, 0))
             .mirrored()
             .repeated()
             .build()]
@@ -49,9 +49,6 @@ impl Piece for Thief {
 
 impl Thief {
     pub fn new(position: Vector3, player: Player) -> Thief {
-        Thief {
-            position,
-            player,
-        }
+        Thief { position, player }
     }
 }

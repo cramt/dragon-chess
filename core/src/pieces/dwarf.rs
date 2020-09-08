@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -36,7 +36,7 @@ impl Piece for Dwarf {
             vec.push(
                 MoveSetBuilder::new()
                     .direction(Vector3::new(0, 0, -1))
-                    .build()
+                    .build(),
             )
         }
         vec
@@ -51,7 +51,7 @@ impl Piece for Dwarf {
             vec.push(
                 MoveSetBuilder::new()
                     .direction(Vector3::new(0, 0, 1))
-                    .build()
+                    .build(),
             )
         }
         vec
@@ -68,9 +68,6 @@ impl Piece for Dwarf {
 
 impl Dwarf {
     pub fn new(position: Vector3, player: Player) -> Dwarf {
-        Dwarf {
-            position,
-            player,
-        }
+        Dwarf { position, player }
     }
 }

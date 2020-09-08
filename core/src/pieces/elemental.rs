@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -35,7 +35,7 @@ impl Piece for Elemental {
                 .direction(Vector3::new(1, 1, 0))
                 .mirrored()
                 .build(),
-            self.move_and_cap()
+            self.move_and_cap(),
         ]
     }
 
@@ -49,7 +49,7 @@ impl Piece for Elemental {
                 .direction(Vector3::new(0, 1, 1))
                 .mirrored()
                 .build(),
-            self.move_and_cap()
+            self.move_and_cap(),
         ]
     }
 
@@ -64,10 +64,7 @@ impl Piece for Elemental {
 
 impl Elemental {
     pub fn new(position: Vector3, player: Player) -> Elemental {
-        Elemental {
-            position,
-            player,
-        }
+        Elemental { position, player }
     }
 
     fn move_and_cap(&self) -> MoveSet {
@@ -81,10 +78,8 @@ impl Elemental {
     }
 
     fn move_and_cap_above(&self) -> Vec<MoveSet> {
-        vec![
-            MoveSetBuilder::new()
-                .direction(Vector3::new(0, 0, -1))
-                .build()
-        ]
+        vec![MoveSetBuilder::new()
+            .direction(Vector3::new(0, 0, -1))
+            .build()]
     }
 }

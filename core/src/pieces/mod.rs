@@ -1,26 +1,25 @@
-pub mod dummy;
-pub mod elemental;
 pub mod basilisk;
+pub mod dummy;
 pub mod dwarf;
+pub mod elemental;
 pub mod paladin;
 
 use crate::pieces::vector3::Vector3;
 use std::vec::Vec;
 
+pub mod cleric;
+pub mod dragon;
+pub mod griffon;
+pub mod hero;
 pub mod king;
 pub mod mage;
-pub mod cleric;
-pub mod thief;
-pub mod hero;
-pub mod unicorn;
-pub mod oliphant;
-pub mod warrior;
-pub mod dragon;
-pub mod vector3;
 pub mod move_set;
+pub mod oliphant;
 pub mod sylph;
-pub mod griffon;
-
+pub mod thief;
+pub mod unicorn;
+pub mod vector3;
+pub mod warrior;
 
 use crate::player::Player;
 
@@ -42,7 +41,10 @@ pub trait Piece {
     fn get_name(&self) -> &str;
 
     fn get_char(&self) -> char {
-        self.get_name().to_uppercase().chars().collect::<Vec<char>>()[0]
+        self.get_name()
+            .to_uppercase()
+            .chars()
+            .collect::<Vec<char>>()[0]
     }
 
     fn promote(&self) -> Option<Box<dyn Piece>> {

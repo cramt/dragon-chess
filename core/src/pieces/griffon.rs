@@ -1,6 +1,6 @@
-use crate::pieces::Piece;
 use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
+use crate::pieces::Piece;
 
 use crate::player::Player;
 
@@ -28,22 +28,18 @@ impl Piece for Griffon {
 
     fn move_directions(&self) -> Vec<MoveSet> {
         if self.position.z == 2 {
-            return vec![
-                MoveSetBuilder::new()
-                    .direction(Vector3::new(3, 1, 0))
-                    .direction(Vector3::new(1, 3, 0))
-                    .direction(Vector3::new(1, 1, -1))
-                    .mirrored()
-                    .build()
-            ];
-        }
-        vec![
-            MoveSetBuilder::new()
+            return vec![MoveSetBuilder::new()
+                .direction(Vector3::new(3, 1, 0))
+                .direction(Vector3::new(1, 3, 0))
+                .direction(Vector3::new(1, 1, -1))
                 .mirrored()
-                .direction(Vector3::new(1, 1, 0))
-                .direction(Vector3::new(1, 1, 1))
-                .build()
-        ]
+                .build()];
+        }
+        vec![MoveSetBuilder::new()
+            .mirrored()
+            .direction(Vector3::new(1, 1, 0))
+            .direction(Vector3::new(1, 1, 1))
+            .build()]
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
@@ -61,9 +57,6 @@ impl Piece for Griffon {
 
 impl Griffon {
     pub fn new(position: Vector3, player: Player) -> Griffon {
-        Griffon {
-            position,
-            player,
-        }
+        Griffon { position, player }
     }
 }

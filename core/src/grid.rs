@@ -1,7 +1,7 @@
-use std::ops::{Index, IndexMut};
+use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
 use crate::pieces::vector3::Vector3;
-use crate::grid::IndexValid::{OutOfBounds, NonDefaultValue, DefaultValue};
 use std::collections::HashMap;
+use std::ops::{Index, IndexMut};
 
 #[derive(PartialEq, Debug)]
 pub enum IndexValid {
@@ -11,11 +11,17 @@ pub enum IndexValid {
 }
 
 #[derive(Debug, Clone)]
-pub struct Grid<T> where T: Default + PartialEq {
-    pub(crate) array: [[[T; 12]; 8]; 3]
+pub struct Grid<T>
+where
+    T: Default + PartialEq,
+{
+    pub(crate) array: [[[T; 12]; 8]; 3],
 }
 
-impl<T> Grid<T> where T: Default + PartialEq {
+impl<T> Grid<T>
+where
+    T: Default + PartialEq,
+{
     pub fn from_map(map: HashMap<Vector3, T>) -> Grid<T> {
         let mut grid = Grid::new();
         let map = map.into_iter().collect::<Vec<(Vector3, T)>>();
@@ -26,7 +32,7 @@ impl<T> Grid<T> where T: Default + PartialEq {
     }
     pub fn new() -> Grid<T> {
         Grid {
-            array: Default::default()
+            array: Default::default(),
         }
     }
 
@@ -48,7 +54,10 @@ impl<T> Grid<T> where T: Default + PartialEq {
         v
     }
 
-    pub fn flat_with_index_owned(&self) -> Vec<(Vector3, T)> where T: Copy {
+    pub fn flat_with_index_owned(&self) -> Vec<(Vector3, T)>
+    where
+        T: Copy,
+    {
         let mut v = vec![];
         for x in 0..self.array.len() {
             for y in 0..self.array[x].len() {
@@ -88,7 +97,10 @@ impl<T> Grid<T> where T: Default + PartialEq {
         self.swap(from, t);
     }
 
-    pub fn concat(&mut self, other: Grid<T>) where T: Copy {
+    pub fn concat(&mut self, other: Grid<T>)
+    where
+        T: Copy,
+    {
         for x in 0..self.array.len() {
             for y in 0..self.array[x].len() {
                 for z in 0..self.array[x][y].len() {
@@ -101,7 +113,10 @@ impl<T> Grid<T> where T: Default + PartialEq {
     }
 }
 
-impl<T> Index<&'_ Vector3> for Grid<T> where T: Default + PartialEq {
+impl<T> Index<&'_ Vector3> for Grid<T>
+where
+    T: Default + PartialEq,
+{
     type Output = T;
 
     fn index(&self, index: &Vector3) -> &Self::Output {
@@ -109,7 +124,10 @@ impl<T> Index<&'_ Vector3> for Grid<T> where T: Default + PartialEq {
     }
 }
 
-impl<T> IndexMut<&'_ Vector3> for Grid<T> where T: Default + PartialEq {
+impl<T> IndexMut<&'_ Vector3> for Grid<T>
+where
+    T: Default + PartialEq,
+{
     fn index_mut(&mut self, index: &Vector3) -> &mut Self::Output {
         &mut self.array[index.z as usize][index.y as usize][index.x as usize]
     }

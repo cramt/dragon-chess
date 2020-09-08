@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -35,30 +35,29 @@ impl Piece for Sylph {
                 Vector3 { x: 6, y: 1, z: 2 },
                 Vector3 { x: 8, y: 1, z: 2 },
                 Vector3 { x: 10, y: 1, z: 2 },
-            ].into_iter().map(|v| v - self.position).collect::<Vec<Vector3>>();
+            ]
+            .into_iter()
+            .map(|v| v - self.position)
+            .collect::<Vec<Vector3>>();
             let mut moveable = sylph_standard_positions;
             moveable.push(Vector3::up());
             let r = vec![MoveSetBuilder::new().directions(moveable).build()];
             return r;
         }
-        vec![
-            MoveSetBuilder::new()
-                .direction(Vector3::new(1, 1, 0))
-                .mirrored_y()
-                .build()
-        ]
+        vec![MoveSetBuilder::new()
+            .direction(Vector3::new(1, 1, 0))
+            .mirrored_y()
+            .build()]
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
         if self.position.z != 2 {
             return vec![];
         }
-        vec![
-            MoveSetBuilder::new()
-                .direction(Vector3::new(0, 1, 0))
-                .direction(Vector3::new(0, 0, -1))
-                .build()
-        ]
+        vec![MoveSetBuilder::new()
+            .direction(Vector3::new(0, 1, 0))
+            .direction(Vector3::new(0, 0, -1))
+            .build()]
     }
 
     fn get_name(&self) -> &str {
@@ -72,9 +71,6 @@ impl Piece for Sylph {
 
 impl Sylph {
     pub fn new(position: Vector3, player: Player) -> Sylph {
-        Sylph {
-            position,
-            player,
-        }
+        Sylph { position, player }
     }
 }

@@ -1,6 +1,5 @@
-use std::vec::Vec;
 use crate::pieces::vector3::Vector3;
-
+use std::vec::Vec;
 
 #[derive(Clone)]
 pub struct MoveSetArg {
@@ -29,16 +28,28 @@ impl MoveSetArg {
         let remote = self.remote;
         let repeated = self.repeated;
         if self.mirrored_y {
-            directions.append(&mut directions.clone().into_iter().map(|mut v| {
-                v.x *= -1;
-                v
-            }).collect::<Vec<Vector3>>());
+            directions.append(
+                &mut directions
+                    .clone()
+                    .into_iter()
+                    .map(|mut v| {
+                        v.x *= -1;
+                        v
+                    })
+                    .collect::<Vec<Vector3>>(),
+            );
         }
         if self.mirrored_x {
-            directions.append(&mut directions.clone().into_iter().map(|mut v| {
-                v.y *= -1;
-                v
-            }).collect::<Vec<Vector3>>());
+            directions.append(
+                &mut directions
+                    .clone()
+                    .into_iter()
+                    .map(|mut v| {
+                        v.y *= -1;
+                        v
+                    })
+                    .collect::<Vec<Vector3>>(),
+            );
         }
         MoveSet {
             directions,
@@ -102,7 +113,8 @@ impl MoveSetBuilder {
             mirrored_y: self.mirrored_y,
             mirrored_x: self.mirrored_x,
             remote: self.remote,
-        }.build()
+        }
+        .build()
     }
 }
 

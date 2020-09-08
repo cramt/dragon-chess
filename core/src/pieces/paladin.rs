@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -35,19 +35,17 @@ impl Piece for Paladin {
                 .direction(Vector3::new(1, 1, -2))
                 .direction(Vector3::new(2, 2, 1))
                 .direction(Vector3::new(2, 2, -1))
-                .build()
+                .build(),
         );
         vec
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
-        let mut vec = vec![
-            MoveSetBuilder::new()
-                .mirrored()
-                .direction(Vector3::new(1, 2, 0))
-                .direction(Vector3::new(2, 1, 0))
-                .build()
-        ];
+        let mut vec = vec![MoveSetBuilder::new()
+            .mirrored()
+            .direction(Vector3::new(1, 2, 0))
+            .direction(Vector3::new(2, 1, 0))
+            .build()];
         if self.position.z == 1 {
             vec.push(
                 MoveSetBuilder::new()
@@ -55,7 +53,7 @@ impl Piece for Paladin {
                     .direction(Vector3::new(1, 1, 0))
                     .direction(Vector3::new(0, 1, 0))
                     .direction(Vector3::new(1, 0, 0))
-                    .build()
+                    .build(),
             )
         }
         vec
@@ -72,9 +70,6 @@ impl Piece for Paladin {
 
 impl Paladin {
     pub fn new(position: Vector3, player: Player) -> Paladin {
-        Paladin {
-            position,
-            player,
-        }
+        Paladin { position, player }
     }
 }

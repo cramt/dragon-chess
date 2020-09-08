@@ -1,6 +1,5 @@
-
 use yew::virtual_dom::VNode;
-use yew::{Component, ComponentLink, Html, ShouldRender, web_sys, Properties};
+use yew::{web_sys, Component, ComponentLink, Html, Properties, ShouldRender};
 
 pub struct RawHTML {
     props: RawHTMLProps,

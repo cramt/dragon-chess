@@ -1,8 +1,6 @@
-
-
 use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
-use crate::pieces::Piece;
 use crate::pieces::vector3::Vector3;
+use crate::pieces::Piece;
 use crate::player::Player;
 
 pub struct Oliphant {
@@ -28,14 +26,12 @@ impl Piece for Oliphant {
     }
 
     fn move_directions(&self) -> Vec<MoveSet> {
-        vec![
-            MoveSetBuilder::new()
-                .direction(Vector3::new(1, 0, 0))
-                .direction(Vector3::new(0, 1, 0))
-                .mirrored()
-                .repeated()
-                .build()
-        ]
+        vec![MoveSetBuilder::new()
+            .direction(Vector3::new(1, 0, 0))
+            .direction(Vector3::new(0, 1, 0))
+            .mirrored()
+            .repeated()
+            .build()]
     }
 
     fn capture_directions(&self) -> Vec<MoveSet> {
@@ -53,9 +49,6 @@ impl Piece for Oliphant {
 
 impl Oliphant {
     pub fn new(position: Vector3, player: Player) -> Oliphant {
-        Oliphant {
-            position,
-            player,
-        }
+        Oliphant { position, player }
     }
 }

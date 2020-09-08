@@ -1,6 +1,6 @@
+use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
 
 use crate::player::Player;
 
@@ -56,9 +56,6 @@ impl Piece for Cleric {
 
 impl Cleric {
     pub fn new(position: Vector3, player: Player) -> Cleric {
-        Cleric {
-            position,
-            player,
-        }
+        Cleric { position, player }
     }
 }

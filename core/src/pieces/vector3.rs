@@ -1,5 +1,5 @@
-use std::ops;
 use std::fmt;
+use std::ops;
 
 #[derive(Copy, Clone, Debug, std::cmp::Eq, std::hash::Hash)]
 pub struct Vector3 {
@@ -46,7 +46,11 @@ impl ops::Add<Vector3> for Vector3 {
     type Output = Vector3;
 
     fn add(self, rhs: Vector3) -> Self::Output {
-        Vector3 { x: self.x + rhs.x, y: self.y + rhs.y, z: self.z + rhs.z }
+        Vector3 {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+            z: self.z + rhs.z,
+        }
     }
 }
 
@@ -55,7 +59,11 @@ impl ops::Mul<i32> for Vector3 {
 
     fn mul(self, rhs: i32) -> Self::Output {
         let v = &rhs;
-        Vector3 { x: self.x * v, y: self.y * v, z: self.z * v }
+        Vector3 {
+            x: self.x * v,
+            y: self.y * v,
+            z: self.z * v,
+        }
     }
 }
 
@@ -63,7 +71,11 @@ impl ops::Neg for Vector3 {
     type Output = Vector3;
 
     fn neg(self) -> Self::Output {
-        Vector3 { x: -self.x, y: -self.y, z: -self.z }
+        Vector3 {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
+        }
     }
 }
 
@@ -71,7 +83,11 @@ impl ops::Sub<Vector3> for Vector3 {
     type Output = Vector3;
 
     fn sub(self, rhs: Vector3) -> Self::Output {
-        Vector3 { x: self.x - rhs.x, y: self.y - rhs.y, z: self.z - rhs.z }
+        Vector3 {
+            x: self.x - rhs.x,
+            y: self.y - rhs.y,
+            z: self.z - rhs.z,
+        }
     }
 }
 
@@ -88,4 +104,3 @@ impl PartialEq for Vector3 {
         self.x == other.x && self.y == other.y && self.z == other.z
     }
 }
-
