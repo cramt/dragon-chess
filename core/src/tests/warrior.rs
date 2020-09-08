@@ -2,13 +2,14 @@
 mod warrior {
     use crate::board::Board;
 
-    use crate::pieces::vector3::Vector3;
     use crate::player::Player;
+    use crate::vector3::Vector3;
 
     use crate::board::MoveType::{Capture, Move};
     use crate::tests::assert_grid::assert_grid;
 
     use crate::pieces::warrior::Warrior;
+    use crate::pieces::Piece;
     use maplit::*;
 
     const PLAYER1: Player = Player::new(1);

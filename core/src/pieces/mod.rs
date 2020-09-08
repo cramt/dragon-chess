@@ -4,7 +4,7 @@ pub mod dwarf;
 pub mod elemental;
 pub mod paladin;
 
-use crate::pieces::vector3::Vector3;
+use crate::vector3::Vector3;
 use std::vec::Vec;
 
 pub mod cleric;
@@ -13,20 +13,20 @@ pub mod griffon;
 pub mod hero;
 pub mod king;
 pub mod mage;
-pub mod move_set;
 pub mod oliphant;
 pub mod sylph;
 pub mod thief;
 pub mod unicorn;
-pub mod vector3;
 pub mod warrior;
 
 use crate::player::Player;
 
-use crate::pieces::move_set::MoveSet;
+use crate::move_set::MoveSet;
 
 pub trait Piece {
-    fn new(position: Vector3, player: Player) -> Self;
+    fn new(position: Vector3, player: Player) -> Self
+    where
+        Self: Sized;
 
     fn get_position(&self) -> &Vector3;
 
@@ -79,7 +79,7 @@ impl PartialEq for dyn Piece {
 }
 
 impl std::clone::Clone for Box<dyn Piece> {
-    fn clone(&self) -> Self {
+    fn clone(&self) -> Box<dyn Piece> {
         self.internal_clone()
     }
 }

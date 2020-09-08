@@ -1,5 +1,5 @@
 use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
-use crate::pieces::vector3::Vector3;
+use crate::vector3::Vector3;
 use std::collections::HashMap;
 use std::ops::{Index, IndexMut};
 

@@ -3,10 +3,11 @@ mod griffon {
     use crate::board::Board;
     use crate::board::MoveType::{Move, RemoteCapture};
     use crate::pieces::dragon::Dragon;
-    use crate::pieces::vector3::Vector3;
     use crate::pieces::warrior::Warrior;
+    use crate::pieces::Piece;
     use crate::player::Player;
     use crate::tests::assert_grid::assert_grid;
+    use crate::vector3::Vector3;
     use maplit::*;
 
     const PLAYER1: Player = Player::new(1);

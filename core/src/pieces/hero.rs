@@ -1,7 +1,7 @@
-use crate::pieces::move_set::{MoveSet, MoveSetBuilder};
-use crate::pieces::vector3::Vector3;
+use crate::move_set::{MoveSet, MoveSetBuilder};
 use crate::pieces::Piece;
 use crate::player::Player;
+use crate::vector3::Vector3;
 
 pub struct Hero {
     position: Vector3,

@@ -2,8 +2,8 @@
 mod checkmate {
     use crate::board::Board;
 
-    use crate::pieces::vector3::Vector3;
     use crate::player::Player;
+    use crate::vector3::Vector3;
 
     use crate::board::CheckStatus::{Check, CheckMate, Free};
 
@@ -11,6 +11,7 @@ mod checkmate {
     use crate::pieces::dwarf::Dwarf;
     use crate::pieces::king::King;
     use crate::pieces::oliphant::Oliphant;
+    use crate::pieces::Piece;
 
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(2);

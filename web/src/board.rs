@@ -1,8 +1,8 @@
 use core::board::MoveType;
 use core::board_controller::BoardController;
 use core::board_controller::PieceColor::White;
-use core::pieces::vector3::Vector3;
 use core::pieces::Piece;
+use core::vector3::Vector3;
 use css_in_rust::Style;
 use std::collections::HashMap;
 use yew::prelude::*;

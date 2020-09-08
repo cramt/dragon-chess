@@ -2,14 +2,15 @@
 mod hero {
     use crate::board::Board;
     use crate::board::MoveType::Move;
-    use crate::pieces::vector3::Vector3;
     use crate::player::Player;
     use crate::tests::assert_grid::assert_grid;
+    use crate::vector3::Vector3;
 
     use maplit::*;
 
     use crate::pieces::king::King;
     use crate::pieces::oliphant::Oliphant;
+    use crate::pieces::Piece;
 
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(2);

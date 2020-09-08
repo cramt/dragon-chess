@@ -1,10 +1,11 @@
 use crate::board::MoveType::{Capture, Move, RemoteCapture};
 use crate::grid::Grid;
 use crate::grid::IndexValid::{DefaultValue, NonDefaultValue, OutOfBounds};
-use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
+use crate::vector3::Vector3;
 
 use crate::board_piece::BoardPiece;
+use crate::move_set::MoveSet;
 use crate::pieces::basilisk::Basilisk;
 use crate::pieces::cleric::Cleric;
 use crate::pieces::dragon::Dragon;
@@ -14,7 +15,6 @@ use crate::pieces::griffon::Griffon;
 use crate::pieces::hero::Hero;
 use crate::pieces::king::King;
 use crate::pieces::mage::Mage;
-use crate::pieces::move_set::MoveSet;
 use crate::pieces::oliphant::Oliphant;
 use crate::pieces::paladin::Paladin;
 use crate::pieces::sylph::Sylph;

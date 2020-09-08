@@ -1,10 +1,10 @@
 use std::default::Default;
 
+use crate::move_set::{MoveSet, MoveSetArg};
 use crate::pieces::hero::Hero;
-use crate::pieces::move_set::{MoveSet, MoveSetArg};
-use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
 use crate::player::Player;
+use crate::vector3::Vector3;
 
 pub struct Warrior {
     position: Vector3,

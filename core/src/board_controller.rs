@@ -2,9 +2,9 @@ use crate::board::CheckStatus::Free;
 use crate::board::{Board, CheckStatus, MoveType};
 use crate::board_controller::PieceColor::{Black, White};
 use crate::grid::Grid;
-use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
 use crate::player::Player;
+use crate::vector3::Vector3;
 use std::collections::HashMap;
 use std::fmt;
 

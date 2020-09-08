@@ -2,8 +2,8 @@
 mod cleric {
     use crate::board::Board;
 
-    use crate::pieces::vector3::Vector3;
     use crate::player::Player;
+    use crate::vector3::Vector3;
 
     use crate::board::MoveType::Move;
     use crate::tests::assert_grid::assert_grid;
@@ -11,6 +11,7 @@ mod cleric {
     use maplit::*;
 
     use crate::pieces::cleric::Cleric;
+    use crate::pieces::Piece;
 
     const PLAYER1: Player = Player::new(1);
     const PLAYER2: Player = Player::new(2);

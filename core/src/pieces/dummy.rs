@@ -1,6 +1,6 @@
-use crate::pieces::move_set::MoveSet;
-use crate::pieces::vector3::Vector3;
+use crate::move_set::MoveSet;
 use crate::pieces::Piece;
+use crate::vector3::Vector3;
 
 use crate::player::Player;
 

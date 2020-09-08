@@ -2,13 +2,14 @@
 mod freezing {
     use crate::board::Board;
 
-    use crate::pieces::vector3::Vector3;
     use crate::player::Player;
+    use crate::vector3::Vector3;
 
     use crate::tests::assert_grid::assert_grid;
 
     use crate::pieces::basilisk::Basilisk;
     use crate::pieces::oliphant::Oliphant;
+    use crate::pieces::Piece;
     use std::collections::HashMap;
 
     const PLAYER1: Player = Player::new(1);
