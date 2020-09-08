@@ -22,6 +22,7 @@ use crate::pieces::thief::Thief;
 use crate::pieces::unicorn::Unicorn;
 use crate::pieces::warrior::Warrior;
 use crate::player::Player;
+use eyre::{Report, Result};
 
 use crate::board::CheckStatus::{Check, CheckMate, Free};
 
@@ -448,7 +449,7 @@ impl Board {
         from: Vector3,
         to: Vector3,
         possible_moves: Grid<Option<MoveType>>,
-    ) -> Result<Vector3, &str> {
+    ) -> Result<Vector3> {
         let remote = match &possible_moves[&to] {
             Some(move_type) => {
                 let move_type = *move_type;
@@ -461,7 +462,7 @@ impl Board {
                 move_type.clone()
             }
             None => {
-                return Err("not a possible move");
+                return Err(Report::msg("illegal move"));
             }
         } == RemoteCapture;
         let final_pos = if remote { &from } else { &to };

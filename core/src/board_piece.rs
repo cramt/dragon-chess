@@ -2,6 +2,7 @@ use crate::board::{Board, MoveType};
 use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
+use eyre::Result;
 
 pub struct BoardPiece<'a> {
     piece: Vector3,
@@ -24,7 +25,7 @@ impl<'a> BoardPiece<'a> {
         self.board.possible_moves(self.get_piece())
     }
 
-    pub fn move_piece(&mut self, position: Vector3) -> Result<Vector3, &str> {
+    pub fn move_piece(&mut self, position: Vector3) -> Result<Vector3> {
         let possible_moves = self.possible_moves();
         self.move_piece_with_moves(position, possible_moves)
     }
@@ -33,7 +34,7 @@ impl<'a> BoardPiece<'a> {
         &mut self,
         position: Vector3,
         possible_moves: Grid<Option<MoveType>>,
-    ) -> Result<Vector3, &str> {
+    ) -> Result<Vector3> {
         let result = self.board.move_piece(self.piece, position, possible_moves);
         if let Ok(pos) = result {
             self.piece = pos;
