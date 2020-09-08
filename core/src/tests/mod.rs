@@ -11,3 +11,4 @@ mod dragon;
 mod griffon;
 mod assert_grid;
 mod sylph;
+mod board_controller;

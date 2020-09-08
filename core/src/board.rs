@@ -45,7 +45,7 @@ pub struct Board {
     pub black: Player,
     pub grid: Grid<Option<Box<dyn Piece>>>,
     dead_pieces: Vec<Box<dyn Piece>>,
-    clone: bool,
+    pub clone: bool,
 }
 
 impl Board {
@@ -249,6 +249,7 @@ impl Board {
                     let mut king_pos = king.unwrap().get_position();
                     let mut clone_board = Board::create_clone(self);
                     {
+                        println!("{:?}", self.grid[piece.get_position()]);
                         let mut board_piece = clone_board.board_piece(*piece.get_position()).unwrap();
                         board_piece.move_piece(*v);
                         if board_piece.get_piece().is_king() {
@@ -375,45 +376,44 @@ impl Board {
     }
 
     pub fn move_piece(&mut self, from: Vector3, to: Vector3, possible_moves: Grid<Option<MoveType>>) -> Result<Vector3, &str> {
-        match &possible_moves[&to] {
+        let remote = match &possible_moves[&to] {
             Some(move_type) => {
                 let move_type = *move_type;
                 if move_type != Move {
                     self.kill_piece(&to);
-                    return Ok(from);
                 }
                 if move_type != RemoteCapture {
                     self.change_position(&from, &to);
                 }
+                move_type.clone()
             }
             None => {
                 return Err("not a possible move");
             }
+        } == RemoteCapture;
+        let final_pos = if remote {
+            &from
+        } else {
+            &to
         };
-        let piece = self.grid[&to].as_ref().unwrap();
-        if to.y == if *piece.get_player() == self.white { 7 } else { 0 } {
-            if let Some(promote) = piece.promote() {
-                self.grid[&to] = Some(promote);
+        if let Some(piece) = self.grid[final_pos].as_ref() {
+            if final_pos.y == if *piece.get_player() == self.white { 7 } else { 0 } {
+                if let Some(promote) = piece.promote() {
+                    self.grid[final_pos] = Some(promote);
+                }
             }
         }
-        Ok(to)
+        Ok(final_pos.clone())
     }
 
     fn change_position(&mut self, from_position: &Vector3, to_position: &Vector3) {
-        let from = self.grid.swap(from_position, None);
-        let to = self.grid.swap(to_position, None);
-        if to.is_some() {
-            let mut piece = to.unwrap();
-            piece.set_position(*from_position);
-            //piece.set_position(*from_position);
-            self.grid.swap(from_position, Some(piece));
-        }
-        if from.is_some() {
-            let mut piece = from.unwrap();
-            piece.set_position(*to_position);
-            //piece.set_position(*to_position);
-            self.grid.swap(to_position, Some(piece));
-        }
+        self.grid.swap_position(from_position, to_position);
+        self.update_piece_position(from_position);
+        self.update_piece_position(to_position);
+    }
+
+    fn update_piece_position(&mut self, position: &Vector3) {
+        self.grid[position].as_mut().map(|x| x.set_position(position.clone()));
     }
 
     pub fn kill_piece(&mut self, position: &Vector3) {

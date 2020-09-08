@@ -34,20 +34,23 @@ impl fmt::Display for PieceColor {
 
 pub struct BoardController {
     board: Board,
-    selected: Option<Vector3>,
+    pub selected: Option<Vector3>,
     turn: PieceColor,
     check_mate: CheckStatus
 }
 
-impl BoardController {
-    pub fn default() -> BoardController {
-        BoardController {
+impl Default for BoardController {
+    fn default() -> Self {
+        Self {
             board: Board::new_default(),
             selected: None,
             turn: White,
             check_mate: Free,
         }
     }
+}
+
+impl BoardController {
     pub fn reset(&mut self) {
         self.board = Board::new_default();
     }
@@ -71,13 +74,14 @@ impl BoardController {
         }
     }
     pub fn select(&mut self, position: Vector3) {
+        println!("select called with {:?}", position);
         if let Some(selected) = self.selected {
             if self.piece_info(selected).unwrap().1[&position].is_some() {
                 let mut piece = self.board.board_piece(selected).unwrap();
                 piece.move_piece(position);
+                self.check_mate = self.board.get_check_status(self.get_current_player());
                 self.turn = self.turn.flip();
             }
-            self.check_mate = self.board.get_check_status(self.get_current_player());
             self.selected = None;
             return;
         };
