@@ -10,6 +10,10 @@ pub struct Griffon {
 }
 
 impl Piece for Griffon {
+    fn new(position: Vector3, player: Player) -> Griffon {
+        Griffon { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -52,11 +56,5 @@ impl Piece for Griffon {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Griffon::new(self.position, self.player))
-    }
-}
-
-impl Griffon {
-    pub fn new(position: Vector3, player: Player) -> Griffon {
-        Griffon { position, player }
     }
 }

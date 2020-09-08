@@ -10,6 +10,10 @@ pub struct Paladin {
 }
 
 impl Piece for Paladin {
+    fn new(position: Vector3, player: Player) -> Paladin {
+        Paladin { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -65,11 +69,5 @@ impl Piece for Paladin {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Paladin::new(self.position, self.player))
-    }
-}
-
-impl Paladin {
-    pub fn new(position: Vector3, player: Player) -> Paladin {
-        Paladin { position, player }
     }
 }

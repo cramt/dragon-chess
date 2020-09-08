@@ -10,6 +10,10 @@ pub struct Elemental {
 }
 
 impl Piece for Elemental {
+    fn new(position: Vector3, player: Player) -> Elemental {
+        Elemental { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -63,10 +67,6 @@ impl Piece for Elemental {
 }
 
 impl Elemental {
-    pub fn new(position: Vector3, player: Player) -> Elemental {
-        Elemental { position, player }
-    }
-
     fn move_and_cap(&self) -> MoveSet {
         MoveSetBuilder::new()
             .direction(Vector3::new(1, 0, 0))

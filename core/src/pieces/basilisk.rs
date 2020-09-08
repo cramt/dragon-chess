@@ -10,6 +10,10 @@ pub struct Basilisk {
 }
 
 impl Piece for Basilisk {
+    fn new(position: Vector3, player: Player) -> Basilisk {
+        Basilisk { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -54,11 +58,5 @@ impl Piece for Basilisk {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Basilisk::new(self.position, self.player))
-    }
-}
-
-impl Basilisk {
-    pub fn new(position: Vector3, player: Player) -> Basilisk {
-        Basilisk { position, player }
     }
 }

@@ -10,6 +10,10 @@ pub struct Sylph {
 }
 
 impl Piece for Sylph {
+    fn new(position: Vector3, player: Player) -> Sylph {
+        Sylph { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -66,11 +70,5 @@ impl Piece for Sylph {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Sylph::new(self.position, self.player))
-    }
-}
-
-impl Sylph {
-    pub fn new(position: Vector3, player: Player) -> Sylph {
-        Sylph { position, player }
     }
 }

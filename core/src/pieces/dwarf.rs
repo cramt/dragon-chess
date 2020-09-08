@@ -10,6 +10,10 @@ pub struct Dwarf {
 }
 
 impl Piece for Dwarf {
+    fn new(position: Vector3, player: Player) -> Dwarf {
+        Dwarf { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -63,11 +67,5 @@ impl Piece for Dwarf {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Dwarf::new(self.position, self.player))
-    }
-}
-
-impl Dwarf {
-    pub fn new(position: Vector3, player: Player) -> Dwarf {
-        Dwarf { position, player }
     }
 }

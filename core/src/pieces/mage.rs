@@ -10,6 +10,10 @@ pub struct Mage {
 }
 
 impl Piece for Mage {
+    fn new(position: Vector3, player: Player) -> Mage {
+        Mage { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -66,11 +70,5 @@ impl Piece for Mage {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Mage::new(self.position, self.player))
-    }
-}
-
-impl Mage {
-    pub fn new(position: Vector3, player: Player) -> Mage {
-        Mage { position, player }
     }
 }

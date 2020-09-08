@@ -10,6 +10,14 @@ pub struct King {
 }
 
 impl Piece for King {
+    fn new(position: Vector3, player: Player) -> King {
+        King {
+            position,
+            player,
+            old_middle_position: Vector3::min(),
+        }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -71,15 +79,5 @@ impl Piece for King {
             player: self.player,
             old_middle_position: self.old_middle_position,
         })
-    }
-}
-
-impl King {
-    pub fn new(position: Vector3, player: Player) -> King {
-        King {
-            position,
-            player,
-            old_middle_position: Vector3::min(),
-        }
     }
 }

@@ -10,6 +10,10 @@ pub struct Dummy {
 }
 
 impl Piece for Dummy {
+    fn new(position: Vector3, player: Player) -> Dummy {
+        Dummy { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -44,11 +48,5 @@ impl Piece for Dummy {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Dummy::new(self.position, self.player))
-    }
-}
-
-impl Dummy {
-    pub fn new(position: Vector3, player: Player) -> Dummy {
-        Dummy { position, player }
     }
 }

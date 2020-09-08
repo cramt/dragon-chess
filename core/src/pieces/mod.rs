@@ -26,6 +26,8 @@ use crate::player::Player;
 use crate::pieces::move_set::MoveSet;
 
 pub trait Piece {
+    fn new(position: Vector3, player: Player) -> Self;
+
     fn get_position(&self) -> &Vector3;
 
     fn set_position(&mut self, pos: Vector3);

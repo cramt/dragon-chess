@@ -9,6 +9,10 @@ pub struct Unicorn {
 }
 
 impl Piece for Unicorn {
+    fn new(position: Vector3, player: Player) -> Unicorn {
+        Unicorn { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -43,11 +47,5 @@ impl Piece for Unicorn {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Unicorn::new(self.position, self.player))
-    }
-}
-
-impl Unicorn {
-    pub fn new(position: Vector3, player: Player) -> Unicorn {
-        Unicorn { position, player }
     }
 }

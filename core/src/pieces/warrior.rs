@@ -12,6 +12,10 @@ pub struct Warrior {
 }
 
 impl Piece for Warrior {
+    fn new(position: Vector3, player: Player) -> Warrior {
+        Warrior { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -52,13 +56,8 @@ impl Piece for Warrior {
     fn promote(&self) -> Option<Box<dyn Piece>> {
         Some(Box::new(Hero::new(self.position, self.player)))
     }
+
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Warrior::new(self.position, self.player))
-    }
-}
-
-impl Warrior {
-    pub fn new(position: Vector3, player: Player) -> Warrior {
-        Warrior { position, player }
     }
 }

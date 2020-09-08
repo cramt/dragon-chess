@@ -10,6 +10,10 @@ pub struct Dragon {
 }
 
 impl Piece for Dragon {
+    fn new(position: Vector3, player: Player) -> Dragon {
+        Dragon { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -64,11 +68,5 @@ impl Piece for Dragon {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Dragon::new(self.position, self.player))
-    }
-}
-
-impl Dragon {
-    pub fn new(position: Vector3, player: Player) -> Dragon {
-        Dragon { position, player }
     }
 }

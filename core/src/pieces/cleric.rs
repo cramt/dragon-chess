@@ -10,6 +10,10 @@ pub struct Cleric {
 }
 
 impl Piece for Cleric {
+    fn new(position: Vector3, player: Player) -> Cleric {
+        Cleric { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -51,11 +55,5 @@ impl Piece for Cleric {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Cleric::new(self.position, self.player))
-    }
-}
-
-impl Cleric {
-    pub fn new(position: Vector3, player: Player) -> Cleric {
-        Cleric { position, player }
     }
 }

@@ -9,6 +9,10 @@ pub struct Oliphant {
 }
 
 impl Piece for Oliphant {
+    fn new(position: Vector3, player: Player) -> Oliphant {
+        Oliphant { position, player }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -44,11 +48,5 @@ impl Piece for Oliphant {
 
     fn internal_clone(&self) -> Box<dyn Piece> {
         Box::new(Oliphant::new(self.position, self.player))
-    }
-}
-
-impl Oliphant {
-    pub fn new(position: Vector3, player: Player) -> Oliphant {
-        Oliphant { position, player }
     }
 }

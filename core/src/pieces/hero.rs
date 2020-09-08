@@ -10,6 +10,14 @@ pub struct Hero {
 }
 
 impl Piece for Hero {
+    fn new(position: Vector3, player: Player) -> Hero {
+        Hero {
+            position,
+            player,
+            old_middle_position: Vector3::min(),
+        }
+    }
+
     fn get_position(&self) -> &Vector3 {
         return &self.position;
     }
@@ -62,15 +70,5 @@ impl Piece for Hero {
             player: self.player,
             old_middle_position: self.old_middle_position,
         })
-    }
-}
-
-impl Hero {
-    pub fn new(position: Vector3, player: Player) -> Hero {
-        Hero {
-            position,
-            player,
-            old_middle_position: Vector3::min(),
-        }
     }
 }
