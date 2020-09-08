@@ -5,13 +5,8 @@ mod checkmate {
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
 
-    
-    
-
-    
-
     use crate::board::CheckStatus::{Check, CheckMate, Free};
-    
+
     use crate::pieces::dragon::Dragon;
     use crate::pieces::dwarf::Dwarf;
     use crate::pieces::king::King;

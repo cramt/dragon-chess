@@ -5,8 +5,8 @@ use crate::grid::Grid;
 use crate::pieces::vector3::Vector3;
 use crate::pieces::Piece;
 use crate::player::Player;
-use core::fmt;
 use std::collections::HashMap;
+use std::fmt;
 
 #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
 pub enum PieceColor {
