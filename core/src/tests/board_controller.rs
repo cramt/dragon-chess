@@ -2,7 +2,7 @@
 mod board_controller {
     use crate::board_controller::BoardController;
     use crate::pieces::vector3::Vector3;
-    use std::ops::Deref;
+    
 
     #[test]
     fn generic_capture() {

@@ -341,7 +341,7 @@ impl Board {
         self.grid
             .flat_with_index()
             .into_iter()
-            .filter(|(p, x)| x.is_some())
+            .filter(|(_p, x)| x.is_some())
             .map(|(p, x)| (p, x.as_ref().unwrap()))
     }
 
@@ -349,7 +349,7 @@ impl Board {
         self.iter()
             .filter(|x| x.get_player() != player)
             .map(|x| (x.freeze_zone(), *x.get_position()))
-            .filter(|(x, p)| x.is_some())
+            .filter(|(x, _p)| x.is_some())
             .map(|(x, p)| (x.unwrap(), p))
             .fold(Grid::new(), |mut acc, (dirs, pos)| {
                 let mut grid = Grid::new();

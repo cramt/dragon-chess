@@ -5,13 +5,13 @@ mod checkmate {
     use crate::pieces::vector3::Vector3;
     use crate::player::Player;
 
-    use crate::board::MoveType::Move;
-    use crate::tests::assert_grid::assert_grid;
+    
+    
 
-    use maplit::*;
+    
 
     use crate::board::CheckStatus::{Check, CheckMate, Free};
-    use crate::pieces::cleric::Cleric;
+    
     use crate::pieces::dragon::Dragon;
     use crate::pieces::dwarf::Dwarf;
     use crate::pieces::king::King;
@@ -45,7 +45,7 @@ mod checkmate {
 
     #[test]
     fn checkmated() {
-        let mut board = Board::new_specified(
+        let board = Board::new_specified(
             vec![
                 Box::new(King::new(Vector3::new(5, 5, 1), PLAYER1)),
                 Box::new(Oliphant::new(Vector3::new(5, 1, 1), PLAYER2)),
