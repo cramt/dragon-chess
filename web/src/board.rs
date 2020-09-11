@@ -10,19 +10,19 @@ use yew::prelude::*;
 pub struct Board {
     link: ComponentLink<Self>,
     board_controller: BoardController,
-    upper_white: Style,
-    middle_white: Style,
-    lower_white: Style,
-    upper_black: Style,
-    middle_black: Style,
-    lower_black: Style,
-    chessboard: Style,
-    possible_move: Style,
-    possible_capture: Style,
-    possible_remote_capture: Style,
-    empty_style: Style,
-    white_piece: Style,
-    black_piece: Style,
+    upper_white: String,
+    middle_white: String,
+    lower_white: String,
+    upper_black: String,
+    middle_black: String,
+    lower_black: String,
+    chessboard: String,
+    possible_move: String,
+    possible_capture: String,
+    possible_remote_capture: String,
+    empty_style: String,
+    white_piece: String,
+    black_piece: String,
 }
 
 pub enum Msg {
@@ -36,148 +36,19 @@ impl Component for Board {
         Self {
             link,
             board_controller: BoardController::default(),
-            upper_white: Style::create(
-                "upper-white",
-                r#"
-                float: left;
-                width: 32px;
-                height: 32px;
-                background-color: #d6d6d6;
-                font-size: 20px;
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            "#,
-            )
-            .unwrap(),
-            upper_black: Style::create(
-                "upper-black",
-                r#"
-                float: left;
-                width: 32px;
-                height: 32px;
-                background-color: #62b0ff;
-                font-size: 20px;
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            "#,
-            )
-            .unwrap(),
-            middle_white: Style::create(
-                "middle-white",
-                r#"
-                float: left;
-                width: 32px;
-                height: 32px;
-                background-color: #d2ae71;
-                font-size: 20px;
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            "#,
-            )
-            .unwrap(),
-            middle_black: Style::create(
-                "middle-black",
-                r#"
-                float: left;
-                width: 32px;
-                height: 32px;
-                background-color: #009d00;
-                font-size: 20px;
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            "#,
-            )
-            .unwrap(),
-            lower_white: Style::create(
-                "lower-white",
-                r#"
-                float: left;
-                width: 32px;
-                height: 32px;
-                background-color: #8e4700;
-                font-size: 20px;
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            "#,
-            )
-            .unwrap(),
-            lower_black: Style::create(
-                "lower-black",
-                r#"
-                float: left;
-                width: 32px;
-                height: 32px;
-                background-color: #db2213;
-                font-size: 20px;
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            "#,
-            )
-            .unwrap(),
-            chessboard: Style::create(
-                "chessboard",
-                r#"
-                width: 384px;
-                height: 256px;
-                margin: 20px;
-                border: 25px solid #333;
-            "#,
-            )
-            .unwrap(),
-            possible_move: Style::create(
-                "possible-move",
-                r#"
-                background-color: rgba(252, 211, 3, 0.5);
-                height: 100%;
-                border-radius: 50%;
-            "#,
-            )
-            .unwrap(),
-            possible_capture: Style::create(
-                "possible-capture",
-                r#"
-                background-color: rgba(252, 3, 3, 0.5);
-                height: 100%;
-                border-radius: 50%;
-            "#,
-            )
-            .unwrap(),
-            possible_remote_capture: Style::create(
-                "possible-remote-capture",
-                r#"
-                background-color: rgba(252, 3, 201, 0.5);
-                height: 100%;
-                border-radius: 50%;
-            "#,
-            )
-            .unwrap(),
-            empty_style: Style::create(
-                "empty",
-                r#"
-                display: block;
-            "#,
-            )
-            .unwrap(),
-            black_piece: Style::create(
-                "black-piece",
-                r#"
-                color: black;
-            "#,
-            )
-            .unwrap(),
-            white_piece: Style::create(
-                "white-piece",
-                r#"
-                color: white;
-            "#,
-            )
-            .unwrap(),
+            upper_white: "upper-white".to_string(),
+            upper_black: "upper-black".to_string(),
+            middle_black: "middle-black".to_string(),
+            lower_black: "lower-black".to_string(),
+            chessboard: "chessboard".to_string(),
+            possible_move: "possible-move".to_string(),
+            possible_capture: "possible-capture".to_string(),
+            possible_remote_capture: "possible-remote-capture".to_string(),
+            empty_style: String::new(),
+            white_piece: "white-piece".to_string(),
+            middle_white: "middle-white".to_string(),
+            lower_white: "lower-white".to_string(),
+            black_piece: "black-piece".to_string(),
         }
     }
 
@@ -211,6 +82,7 @@ impl Component for Board {
         };
         html! {
             <div>
+                <style>{include_str!("board.css")}</style>
                 <p>{format!("{}'s turn", colour.to_string().to_lowercase())}</p>
                 <p>{check_string}</p>
                 {self.render_board()}
@@ -233,21 +105,21 @@ impl Board {
             vec![&self.middle_white, &self.middle_black],
             vec![&self.upper_white, &self.upper_black],
         ]
-        .into_iter()
-        .enumerate()
-        .map(|(i, style)| {
-            html! {
+            .into_iter()
+            .enumerate()
+            .map(|(i, style)| {
+                html! {
                 <div class=self.chessboard.clone()>
                     {self.render_cell(style, i as i32, &info, &possible_moves)}
                 </div>
             }
-        })
-        .collect()
+            })
+            .collect()
     }
 
     fn render_cell(
         &self,
-        style: Vec<&Style>,
+        style: Vec<&String>,
         z: i32,
         info: &HashMap<Vector3, &Box<dyn Piece>>,
         possible_moves: &HashMap<Vector3, MoveType>,

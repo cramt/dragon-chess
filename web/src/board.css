@@ -1,0 +1,96 @@
+.upper-white {
+    float: left;
+    width: 32px;
+    height: 32px;
+    background-color: #d6d6d6;
+    font-size: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.upper-black {
+    float: left;
+    width: 32px;
+    height: 32px;
+    background-color: #62b0ff;
+    font-size: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.middle-white {
+    float: left;
+    width: 32px;
+    height: 32px;
+    background-color: #d2ae71;
+    font-size: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.middle-black {
+    float: left;
+    width: 32px;
+    height: 32px;
+    background-color: #009d00;
+    font-size: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.lower-white {
+    float: left;
+    width: 32px;
+    height: 32px;
+    background-color: #8e4700;
+    font-size: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.lower-black {
+    float: left;
+    width: 32px;
+    height: 32px;
+    background-color: #db2213;
+    font-size: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.chessboard {
+    width: 384px;
+    height: 256px;
+    margin: 20px;
+    border: 25px solid #333;
+}
+
+.possible-move {
+    background-color: rgba(252, 211, 3, 0.5);
+    height: 100%;
+    border-radius: 50%;
+}
+
+.possible-capture {
+    background-color: rgba(252, 3, 3, 0.5);
+    height: 100%;
+    border-radius: 50%;
+}
+
+.possible-remote-capture {
+    background-color: rgba(252, 3, 201, 0.5);
+    height: 100%;
+    border-radius: 50%;
+}
+.black-piece{
+    color: black;
+}
+.white-piece{
+    color: white;
+}

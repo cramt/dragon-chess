@@ -2,5 +2,6 @@
 members = [
     "core",
     "web",
-    "native3d"
+    "native3d",
+    "macros"
 ]
